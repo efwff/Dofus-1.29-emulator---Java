@@ -1,0 +1,21 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'eclipse'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+	compile project(':common')
+    compile 'com.google.guava:guava:19.0'
+    compile 'org.slf4j:slf4j-log4j12:1.7.13' 
+    compile 'org.slf4j:slf4j-api:1.7.13'
+    compile 'org.jooq:jooq:3.8.2'
+    compile 'org.jooq:jooq-codegen:3.8.2'
+    runtime 'mysql:mysql-connector-java:6.0.2'
+    testCompile 'junit:junit:4.12'
+}
+
+
+mainClassName = "com.codebreak.login.Main"
