@@ -7,7 +7,7 @@ import org.jooq.DSLContext;
 
 import static com.codebreak.login.persistence.Tables.GAMESERVICE;
 
-import com.codebreak.common.persistence.Database;
+import com.codebreak.common.persistence.impl.Database;
 import com.codebreak.login.database.gameservice.AbstractGameserviceOperation;
 import com.codebreak.login.persistence.tables.records.GameserviceRecord;
 

@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.codebreak.common.network.TcpEvent;
-import com.codebreak.common.persistence.Database;
+import com.codebreak.common.persistence.impl.Database;
 import com.codebreak.common.util.TypedObserver;
 import com.google.common.eventbus.EventBus;
 

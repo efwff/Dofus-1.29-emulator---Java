@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 
 import com.codebreak.common.network.handler.NetworkState;
-import com.codebreak.common.persistence.Database;
+import com.codebreak.common.persistence.impl.Database;
 import com.codebreak.login.network.LoginClient;
 import com.codebreak.login.network.handler.AbstractLoginHandler;
 import com.codebreak.login.network.handler.AbstractLoginState;

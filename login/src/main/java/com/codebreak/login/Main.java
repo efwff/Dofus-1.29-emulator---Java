@@ -3,7 +3,7 @@ package com.codebreak.login;
 import java.util.NoSuchElementException;
 
 import com.codebreak.common.network.AbstractTcpServer;
-import com.codebreak.common.persistence.Database;
+import com.codebreak.common.persistence.impl.Database;
 import com.codebreak.common.util.Configuration;
 import com.codebreak.common.util.impl.Log;
 import com.codebreak.login.network.LoginServer;

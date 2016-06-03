@@ -2,7 +2,7 @@ package com.codebreak.login.database.account.impl;
 
 import java.util.Optional;
 
-import com.codebreak.common.persistence.Operation;
+import com.codebreak.common.persistence.DatabaseOperation;
 import com.codebreak.login.database.account.AbstractAccountOperationWrap;
 import com.codebreak.login.database.account.impl.exception.WrongPasswordException;
 import com.codebreak.login.persistence.tables.records.AccountRecord;
@@ -16,7 +16,7 @@ public final class PasswordMatch extends AbstractAccountOperationWrap {
 	private final String encryptKey;
 	private final String givenPassword;
 	
-	public PasswordMatch(final Operation<AccountRecord> origin, final String encryptKey, final String givenPassword) {
+	public PasswordMatch(final DatabaseOperation<AccountRecord> origin, final String encryptKey, final String givenPassword) {
 		super(origin);
 		this.encryptKey = encryptKey;
 		this.givenPassword = givenPassword;

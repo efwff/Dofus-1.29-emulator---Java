@@ -5,7 +5,7 @@ import java.util.BitSet;
 import java.util.Optional;
 import java.util.Set;
 
-import com.codebreak.common.persistence.Database;
+import com.codebreak.common.persistence.impl.Database;
 
 import gnu.trove.set.hash.THashSet;
 

@@ -6,7 +6,7 @@ import org.jooq.DSLContext;
 
 import static com.codebreak.login.persistence.Tables.*;
 
-import com.codebreak.common.persistence.Database;
+import com.codebreak.common.persistence.impl.Database;
 import com.codebreak.login.database.account.AbstractAccountOperation;
 import com.codebreak.login.persistence.tables.records.AccountRecord;
 

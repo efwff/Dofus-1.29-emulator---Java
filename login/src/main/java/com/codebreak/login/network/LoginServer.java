@@ -6,7 +6,7 @@ import java.nio.channels.AsynchronousSocketChannel;
 import java.util.NoSuchElementException;
 
 import com.codebreak.common.network.AbstractTcpServer;
-import com.codebreak.common.persistence.Database;
+import com.codebreak.common.persistence.impl.Database;
 import com.codebreak.common.util.Configuration;
 
 public final class LoginServer extends AbstractTcpServer<LoginClient> {

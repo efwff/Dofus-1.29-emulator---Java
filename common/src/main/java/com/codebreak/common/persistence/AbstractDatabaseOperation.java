@@ -6,7 +6,9 @@ import org.jooq.DSLContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractDatabaseOperation<T> implements Operation<T>  {
+import com.codebreak.common.persistence.impl.Database;
+
+public abstract class AbstractDatabaseOperation<T> implements DatabaseOperation<T>  {
 	
 	protected static final Logger LOGGER = LoggerFactory.getLogger(AbstractDatabaseOperation.class);
 	

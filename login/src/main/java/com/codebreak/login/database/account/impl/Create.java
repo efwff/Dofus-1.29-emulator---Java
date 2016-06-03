@@ -6,8 +6,8 @@ import java.util.Optional;
 
 import org.jooq.DSLContext;
 
-import com.codebreak.common.persistence.Database;
-import com.codebreak.common.persistence.Operation;
+import com.codebreak.common.persistence.DatabaseOperation;
+import com.codebreak.common.persistence.impl.Database;
 import com.codebreak.login.database.account.AbstractAccountOperationWrap;
 import com.codebreak.login.persistence.tables.records.AccountRecord;
 
@@ -21,7 +21,7 @@ public final class Create extends AbstractAccountOperationWrap {
 	private final String question;
 	private final String answer;
 	
-	public Create(final Operation<AccountRecord> origin,
+	public Create(final DatabaseOperation<AccountRecord> origin,
 			final Database database, 
 			final String name,
 			final String nickname,
@@ -42,16 +42,15 @@ public final class Create extends AbstractAccountOperationWrap {
 	@Override
 	public Optional<AccountRecord> fetch() throws Exception {
 		super.fetch();
-		try(final DSLContext context = this.database.context()) {
-			final AccountRecord newAccount = context.newRecord(ACCOUNT);
-			newAccount.setName(this.name);
-			newAccount.setNickname(this.nickname);
-			newAccount.setPassword(this.password);
-			newAccount.setEmail(this.email);
-			newAccount.setSecretquestion(this.question);
-			newAccount.setSecretanswer(this.answer);
-			newAccount.insert();
-			return Optional.of(newAccount);
-		}
+		final DSLContext context = this.database.context();
+		final AccountRecord newAccount = context.newRecord(ACCOUNT);
+		newAccount.setName(this.name);
+		newAccount.setNickname(this.nickname);
+		newAccount.setPassword(this.password);
+		newAccount.setEmail(this.email);
+		newAccount.setSecretquestion(this.question);
+		newAccount.setSecretanswer(this.answer);
+		newAccount.insert();
+		return Optional.of(newAccount);
 	}
 }

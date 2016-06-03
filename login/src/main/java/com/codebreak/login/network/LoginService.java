@@ -5,7 +5,7 @@ import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import com.codebreak.common.network.TcpEvent;
-import com.codebreak.common.persistence.Database;
+import com.codebreak.common.persistence.impl.Database;
 import com.codebreak.common.util.concurrent.AbstractService;
 import com.codebreak.login.database.account.impl.ResetConnectedAccounts;
 import com.codebreak.login.database.gameservice.impl.AllGameservice;

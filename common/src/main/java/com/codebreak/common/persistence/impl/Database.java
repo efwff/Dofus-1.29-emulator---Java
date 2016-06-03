@@ -1,4 +1,4 @@
-package com.codebreak.common.persistence;
+package com.codebreak.common.persistence.impl;
 
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
@@ -14,6 +14,7 @@ public final class Database {
 	public static final String CONFIG_SCHEMA = "db.schema";
 	
 	private final Configuration dbConfig;
+	private final DSLContext context;
 	
 	public Database(final com.codebreak.common.util.Configuration config) {
 		this.dbConfig = new Configuration()
@@ -31,6 +32,11 @@ public final class Database {
 				        .withTarget(new Target()
 				            .withPackageName(config.string(CONFIG_PACKAGE))
 				            .withDirectory("./src/main/java")));
+		this.context = DSL.using(
+			this.dbConfig.getJdbc().getUrl(), 
+			this.dbConfig.getJdbc().getUser(), 
+			this.dbConfig.getJdbc().getPassword()
+		);
 	}
 	
 	public final Configuration dbConfig() {
@@ -38,7 +44,7 @@ public final class Database {
 	}
 
 	public DSLContext context() {
-		return DSL.using(this.dbConfig.getJdbc().getUrl(), this.dbConfig.getJdbc().getUser(), this.dbConfig.getJdbc().getPassword());
+		return this.context;
 	}	
 	
 	public void generate() throws Exception {

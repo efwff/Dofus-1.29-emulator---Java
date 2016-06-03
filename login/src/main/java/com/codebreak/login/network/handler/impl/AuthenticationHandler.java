@@ -3,10 +3,11 @@ package com.codebreak.login.network.handler.impl;
 import java.util.Optional;
 import java.util.function.BiFunction;
 
-import org.jooq.DSLContext;
-
+import com.codebreak.common.network.TcpEvent;
+import com.codebreak.common.network.TcpEventType;
 import com.codebreak.common.network.message.AbstractDofusMessage;
-import com.codebreak.common.persistence.Database;
+import com.codebreak.common.persistence.impl.Database;
+import com.codebreak.common.util.TypedObserver;
 import com.codebreak.login.database.account.impl.AccountByName;
 import com.codebreak.login.database.account.impl.Create;
 import com.codebreak.login.database.account.impl.Existant;
@@ -88,11 +89,17 @@ public final class AuthenticationHandler extends AbstractLoginHandler {
 	private final Optional<LoginState> authenticationRequest(final LoginClient client, final String message) {
 		try {
 			final AccountRecord account = this.checkAccount(client.encryptKey(), message).get();
-			try(final DSLContext context = this.dbContext()) {
-				account.attach(context.configuration());
-				account.setConnected(true);
-				account.update();
-			}
+			account.setConnected(true);
+			account.update();			
+			client.addObserver(new TypedObserver<TcpEvent<LoginClient>>() {				
+				@Override
+				public void onEvent(TcpEvent<LoginClient> event) {
+					if(event.type() == TcpEventType.DISCONNECTED) {
+						account.setConnected(false);
+						account.update();
+					}
+				}
+			});
 			client.write(
 				AbstractDofusMessage.batch(
 					LoginMessage.LOGIN_SUCCESS(account.getPower()),

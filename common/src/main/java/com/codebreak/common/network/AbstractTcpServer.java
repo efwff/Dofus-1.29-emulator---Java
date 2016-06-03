@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.codebreak.common.persistence.Database;
+import com.codebreak.common.persistence.impl.Database;
 import com.codebreak.common.util.AbstractTypedObservable;
 import com.codebreak.common.util.Configuration;
 import com.codebreak.common.util.Identities;

@@ -6,7 +6,7 @@ import java.nio.channels.AsynchronousSocketChannel;
 import java.security.SecureRandom;
 
 import com.codebreak.common.network.AbstractDofusClient;
-import com.codebreak.common.persistence.Database;
+import com.codebreak.common.persistence.impl.Database;
 import com.codebreak.login.network.handler.impl.ProtocolCheckingState;
 
 public class LoginClient extends AbstractDofusClient<LoginClient> {

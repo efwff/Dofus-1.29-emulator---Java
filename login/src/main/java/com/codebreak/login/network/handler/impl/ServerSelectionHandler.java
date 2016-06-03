@@ -6,7 +6,7 @@ import java.util.function.BiFunction;
 
 import com.codebreak.common.network.TcpEvent;
 import com.codebreak.common.network.TcpEventType;
-import com.codebreak.common.persistence.Database;
+import com.codebreak.common.persistence.impl.Database;
 import com.codebreak.common.util.TypedObserver;
 import com.codebreak.login.network.LoginClient;
 import com.codebreak.login.network.handler.AbstractLoginHandler;

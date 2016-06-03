@@ -1,6 +1,6 @@
 package com.codebreak.login.network.handler.impl;
 
-import com.codebreak.common.persistence.Database;
+import com.codebreak.common.persistence.impl.Database;
 import com.codebreak.login.network.handler.AbstractLoginState;
 import com.codebreak.login.network.ipc.GameServerSource;
 
