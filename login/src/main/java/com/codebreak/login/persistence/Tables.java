@@ -5,6 +5,7 @@ package com.codebreak.login.persistence;
 
 
 import com.codebreak.login.persistence.tables.Account;
+import com.codebreak.login.persistence.tables.Gameservice;
 
 import javax.annotation.Generated;
 
@@ -26,4 +27,9 @@ public class Tables {
      * The table <code>codebreak_login.account</code>.
      */
     public static final Account ACCOUNT = com.codebreak.login.persistence.tables.Account.ACCOUNT;
+
+    /**
+     * The table <code>codebreak_login.gameservice</code>.
+     */
+    public static final Gameservice GAMESERVICE = com.codebreak.login.persistence.tables.Gameservice.GAMESERVICE;
 }

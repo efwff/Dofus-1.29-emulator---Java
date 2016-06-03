@@ -11,16 +11,16 @@ import com.codebreak.common.util.Configuration;
 
 public final class LoginServer extends AbstractTcpServer<LoginClient> {
 	
-	public LoginServer(final Configuration config) throws NoSuchElementException, IOException {		
+	public LoginServer(final Configuration config, final Database database) throws NoSuchElementException, IOException {		
 		super(
 			config, 
-			new LoginService(),
-			new Database(config)
-		);						
+			new LoginService(database),
+			database
+		);
 	}
 	
 	@Override
 	public LoginClient createClient(int identity, ByteBuffer buffer, AsynchronousSocketChannel channel) {
-		return new LoginClient(identity, buffer, channel, service, database);
+		return new LoginClient(identity, buffer, channel, (LoginService)service, database);
 	}	
 }

@@ -5,6 +5,7 @@ package com.codebreak.login.persistence;
 
 
 import com.codebreak.login.persistence.tables.Account;
+import com.codebreak.login.persistence.tables.Gameservice;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +31,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CodebreakLogin extends SchemaImpl {
 
-    private static final long serialVersionUID = 608436974;
+    private static final long serialVersionUID = -174296617;
 
     /**
      * The reference instance of <code>codebreak_login</code>
@@ -41,6 +42,11 @@ public class CodebreakLogin extends SchemaImpl {
      * The table <code>codebreak_login.account</code>.
      */
     public final Account ACCOUNT = com.codebreak.login.persistence.tables.Account.ACCOUNT;
+
+    /**
+     * The table <code>codebreak_login.gameservice</code>.
+     */
+    public final Gameservice GAMESERVICE = com.codebreak.login.persistence.tables.Gameservice.GAMESERVICE;
 
     /**
      * No further instances allowed
@@ -67,6 +73,7 @@ public class CodebreakLogin extends SchemaImpl {
 
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
-            Account.ACCOUNT);
+            Account.ACCOUNT,
+            Gameservice.GAMESERVICE);
     }
 }

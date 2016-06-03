@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.codebreak.common.network.message.AbstractDofusMessage;
-import com.codebreak.login.network.structure.HostCharactersInformations;
 import com.codebreak.login.network.structure.HostInformations;
 
 public final class LoginMessage {	
@@ -115,7 +114,7 @@ public final class LoginMessage {
 		};
 	}
 	
-	public static final AbstractDofusMessage ACCOUNT_CHARACTERS(final List<HostCharactersInformations> hosts, final long accountId, final long remainingSubsription) {
+	public static final AbstractDofusMessage ACCOUNT_CHARACTERS(final List<HostInformations> hosts, final long accountId, final long remainingSubsription) {
 		return new AbstractDofusMessage() {			
 			@Override
 			protected String internalSerialize() {

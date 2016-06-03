@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import com.codebreak.common.network.message.AbstractDofusMessage;
 import com.codebreak.common.util.AbstractTypedObservable;
 
-public abstract class AbstractTcpClient<T extends AbstractTcpClient<T>> 
+public abstract class AbstractTcpClient<T> 
 	extends AbstractTypedObservable<TcpEvent<T>> 
 	implements CompletionHandler<Integer, Integer> {
 
@@ -173,7 +173,7 @@ public abstract class AbstractTcpClient<T extends AbstractTcpClient<T>>
 			this.channel.shutdownInput();
 			this.channel.shutdownOutput();
 			this.channel.close();
-		} catch (IOException e) {			
+		} catch (IOException e) {		
 		}		
 	}
 	

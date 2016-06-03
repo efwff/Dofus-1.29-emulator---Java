@@ -6,10 +6,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import org.jooq.DSLContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.codebreak.common.network.TcpEvent;
+import com.codebreak.common.persistence.Database;
 import com.codebreak.common.util.TypedObserver;
 import com.google.common.eventbus.EventBus;
 
@@ -21,11 +23,18 @@ public abstract class AbstractService<T>
 	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractService.class);
 	private final ExecutorService executor;
 	private final EventBus eventBus;
+	private final Database database;
 	
-	public AbstractService() {
+	public AbstractService(final Database database) {
 		this.executor = Executors.newCachedThreadPool();
 		this.eventBus = new EventBus();
+		this.database = database;
 	}
+	
+	protected final DSLContext dbContext() {
+		return this.database.context();
+	}
+	
 	public final EventBus eventBus() {
 		return this.eventBus;
 	}	

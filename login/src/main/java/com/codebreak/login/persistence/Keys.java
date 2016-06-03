@@ -5,7 +5,9 @@ package com.codebreak.login.persistence;
 
 
 import com.codebreak.login.persistence.tables.Account;
+import com.codebreak.login.persistence.tables.Gameservice;
 import com.codebreak.login.persistence.tables.records.AccountRecord;
+import com.codebreak.login.persistence.tables.records.GameserviceRecord;
 
 import javax.annotation.Generated;
 
@@ -40,6 +42,8 @@ public class Keys {
 
     public static final UniqueKey<AccountRecord> KEY_ACCOUNT_PRIMARY = UniqueKeys0.KEY_ACCOUNT_PRIMARY;
     public static final UniqueKey<AccountRecord> KEY_ACCOUNT_NAME = UniqueKeys0.KEY_ACCOUNT_NAME;
+    public static final UniqueKey<AccountRecord> KEY_ACCOUNT_NICKNAME = UniqueKeys0.KEY_ACCOUNT_NICKNAME;
+    public static final UniqueKey<GameserviceRecord> KEY_GAMESERVICE_PRIMARY = UniqueKeys0.KEY_GAMESERVICE_PRIMARY;
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
@@ -57,5 +61,7 @@ public class Keys {
     private static class UniqueKeys0 extends AbstractKeys {
         public static final UniqueKey<AccountRecord> KEY_ACCOUNT_PRIMARY = createUniqueKey(Account.ACCOUNT, "KEY_account_PRIMARY", Account.ACCOUNT.ID);
         public static final UniqueKey<AccountRecord> KEY_ACCOUNT_NAME = createUniqueKey(Account.ACCOUNT, "KEY_account_Name", Account.ACCOUNT.NAME);
+        public static final UniqueKey<AccountRecord> KEY_ACCOUNT_NICKNAME = createUniqueKey(Account.ACCOUNT, "KEY_account_Nickname", Account.ACCOUNT.NICKNAME);
+        public static final UniqueKey<GameserviceRecord> KEY_GAMESERVICE_PRIMARY = createUniqueKey(Gameservice.GAMESERVICE, "KEY_gameservice_PRIMARY", Gameservice.GAMESERVICE.ID);
     }
 }

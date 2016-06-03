@@ -4,11 +4,10 @@ import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.security.SecureRandom;
-import java.util.concurrent.AbstractExecutorService;
 
 import com.codebreak.common.network.AbstractDofusClient;
 import com.codebreak.common.persistence.Database;
-import com.codebreak.login.network.handler.LoginProcessor;
+import com.codebreak.login.network.handler.impl.ProtocolCheckingState;
 
 public class LoginClient extends AbstractDofusClient<LoginClient> {
 	
@@ -17,8 +16,8 @@ public class LoginClient extends AbstractDofusClient<LoginClient> {
 	
 	private final String encryptKey;
 	
-	public LoginClient(final int identity, final ByteBuffer buffer, final AsynchronousSocketChannel channel, final AbstractExecutorService service, final Database database) {
-		super(identity, buffer, channel, service, new LoginProcessor(database));
+	public LoginClient(final int identity, final ByteBuffer buffer, final AsynchronousSocketChannel channel, final LoginService service, final Database database) {
+		super(identity, buffer, channel, service, new ProtocolCheckingState(database, service));
 		this.encryptKey = new BigInteger(130, Random)
 								.toString(10)
 								.substring(0, KEY_LENGTH);

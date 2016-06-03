@@ -2,17 +2,16 @@ package com.codebreak.common.util;
 
 import java.util.NoSuchElementException;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public interface Configuration {
 	default Integer integer(final String key) throws NoSuchElementException {
 		return Integer.parseInt(string(key));
 	}	
 	String string(final String key) throws NoSuchElementException;	
-	default void set(final String key, final Object value) {
+	default void set(final String key, final Object value) throws Exception {
 		set(key, value.toString());
 	}
-	default void set(final String key, final String value) {
-		throw new NotImplementedException();
+	default void set(final String key, final String value) throws Exception {
+		throw new Exception("not implemented");
 	}
 }

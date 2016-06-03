@@ -36,7 +36,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Account extends TableImpl<AccountRecord> {
 
-    private static final long serialVersionUID = 1122913469;
+    private static final long serialVersionUID = 332514298;
 
     /**
      * The reference instance of <code>codebreak_login.account</code>
@@ -62,64 +62,64 @@ public class Account extends TableImpl<AccountRecord> {
     public final TableField<AccountRecord, String> NAME = createField("Name", org.jooq.impl.SQLDataType.VARCHAR.length(20).nullable(false), this, "");
 
     /**
-     * The column <code>codebreak_login.account.Password</code>.
-     */
-    public final TableField<AccountRecord, String> PASSWORD = createField("Password", org.jooq.impl.SQLDataType.VARCHAR.length(20).nullable(false), this, "");
-
-    /**
      * The column <code>codebreak_login.account.Nickname</code>.
      */
     public final TableField<AccountRecord, String> NICKNAME = createField("Nickname", org.jooq.impl.SQLDataType.VARCHAR.length(20).nullable(false), this, "");
 
     /**
+     * The column <code>codebreak_login.account.Password</code>.
+     */
+    public final TableField<AccountRecord, String> PASSWORD = createField("Password", org.jooq.impl.SQLDataType.VARCHAR.length(20).nullable(false), this, "");
+
+    /**
      * The column <code>codebreak_login.account.Power</code>.
      */
-    public final TableField<AccountRecord, Integer> POWER = createField("Power", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+    public final TableField<AccountRecord, Integer> POWER = createField("Power", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
      * The column <code>codebreak_login.account.CreationDate</code>.
      */
-    public final TableField<AccountRecord, Timestamp> CREATIONDATE = createField("CreationDate", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.inline("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<AccountRecord, Timestamp> CREATIONDATE = createField("CreationDate", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.inline("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
      * The column <code>codebreak_login.account.LastConnectionDate</code>.
      */
-    public final TableField<AccountRecord, Timestamp> LASTCONNECTIONDATE = createField("LastConnectionDate", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.inline("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<AccountRecord, Timestamp> LASTCONNECTIONDATE = createField("LastConnectionDate", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.inline("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
-     * The column <code>codebreak_login.account.LastConnectionIP</code>.
+     * The column <code>codebreak_login.account.LastConnectionIp</code>.
      */
-    public final TableField<AccountRecord, String> LASTCONNECTIONIP = createField("LastConnectionIP", org.jooq.impl.SQLDataType.VARCHAR.length(16).nullable(false).defaultValue(org.jooq.impl.DSL.inline("?.?.?.?", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
+    public final TableField<AccountRecord, String> LASTCONNECTIONIP = createField("LastConnectionIp", org.jooq.impl.SQLDataType.VARCHAR.length(15).defaultValue(org.jooq.impl.DSL.inline("?.?.?.?", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
 
     /**
      * The column <code>codebreak_login.account.RemainingSubscription</code>.
      */
-    public final TableField<AccountRecord, Timestamp> REMAININGSUBSCRIPTION = createField("RemainingSubscription", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.inline("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<AccountRecord, Timestamp> REMAININGSUBSCRIPTION = createField("RemainingSubscription", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.inline("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
      * The column <code>codebreak_login.account.BannedUntil</code>.
      */
-    public final TableField<AccountRecord, Timestamp> BANNEDUNTIL = createField("BannedUntil", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.inline("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<AccountRecord, Timestamp> BANNEDUNTIL = createField("BannedUntil", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.inline("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
      * The column <code>codebreak_login.account.Banned</code>.
      */
-    public final TableField<AccountRecord, Boolean> BANNED = createField("Banned", org.jooq.impl.SQLDataType.BIT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("b'0'", org.jooq.impl.SQLDataType.BIT)), this, "");
+    public final TableField<AccountRecord, Boolean> BANNED = createField("Banned", org.jooq.impl.SQLDataType.BIT.defaultValue(org.jooq.impl.DSL.inline("b'0'", org.jooq.impl.SQLDataType.BIT)), this, "");
 
     /**
      * The column <code>codebreak_login.account.SecretQuestion</code>.
      */
-    public final TableField<AccountRecord, String> SECRETQUESTION = createField("SecretQuestion", org.jooq.impl.SQLDataType.VARCHAR.length(20).nullable(false), this, "");
+    public final TableField<AccountRecord, String> SECRETQUESTION = createField("SecretQuestion", org.jooq.impl.SQLDataType.VARCHAR.length(50).defaultValue(org.jooq.impl.DSL.inline("secret", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
 
     /**
-     * The column <code>codebreak_login.account.Answer</code>.
+     * The column <code>codebreak_login.account.SecretAnswer</code>.
      */
-    public final TableField<AccountRecord, String> ANSWER = createField("Answer", org.jooq.impl.SQLDataType.VARCHAR.length(20).nullable(false), this, "");
+    public final TableField<AccountRecord, String> SECRETANSWER = createField("SecretAnswer", org.jooq.impl.SQLDataType.VARCHAR.length(50).defaultValue(org.jooq.impl.DSL.inline("secret", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
 
     /**
      * The column <code>codebreak_login.account.Email</code>.
      */
-    public final TableField<AccountRecord, String> EMAIL = createField("Email", org.jooq.impl.SQLDataType.VARCHAR.length(20).nullable(false), this, "");
+    public final TableField<AccountRecord, String> EMAIL = createField("Email", org.jooq.impl.SQLDataType.VARCHAR.length(50).defaultValue(org.jooq.impl.DSL.inline("test@test.test", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
 
     /**
      * Create a <code>codebreak_login.account</code> table reference
@@ -172,7 +172,7 @@ public class Account extends TableImpl<AccountRecord> {
      */
     @Override
     public List<UniqueKey<AccountRecord>> getKeys() {
-        return Arrays.<UniqueKey<AccountRecord>>asList(Keys.KEY_ACCOUNT_PRIMARY, Keys.KEY_ACCOUNT_NAME);
+        return Arrays.<UniqueKey<AccountRecord>>asList(Keys.KEY_ACCOUNT_PRIMARY, Keys.KEY_ACCOUNT_NAME, Keys.KEY_ACCOUNT_NICKNAME);
     }
 
     /**

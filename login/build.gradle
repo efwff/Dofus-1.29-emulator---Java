@@ -13,6 +13,7 @@ dependencies {
     compile 'org.slf4j:slf4j-api:1.7.13'
     compile 'org.jooq:jooq:3.8.2'
     compile 'org.jooq:jooq-codegen:3.8.2'
+    compile 'org.terracotta:ipc-eventbus:1.0.1'
     runtime 'mysql:mysql-connector-java:6.0.2'
     testCompile 'junit:junit:4.12'
 }

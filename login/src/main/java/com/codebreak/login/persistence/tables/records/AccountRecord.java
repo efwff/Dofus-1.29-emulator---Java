@@ -30,7 +30,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements Record14<Long, String, String, String, Integer, Timestamp, Timestamp, String, Timestamp, Timestamp, Boolean, String, String, String> {
 
-    private static final long serialVersionUID = -560724609;
+    private static final long serialVersionUID = -1262346417;
 
     /**
      * Setter for <code>codebreak_login.account.Id</code>.
@@ -61,30 +61,30 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
     }
 
     /**
-     * Setter for <code>codebreak_login.account.Password</code>.
-     */
-    public void setPassword(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Getter for <code>codebreak_login.account.Password</code>.
-     */
-    public String getPassword() {
-        return (String) get(2);
-    }
-
-    /**
      * Setter for <code>codebreak_login.account.Nickname</code>.
      */
     public void setNickname(String value) {
-        set(3, value);
+        set(2, value);
     }
 
     /**
      * Getter for <code>codebreak_login.account.Nickname</code>.
      */
     public String getNickname() {
+        return (String) get(2);
+    }
+
+    /**
+     * Setter for <code>codebreak_login.account.Password</code>.
+     */
+    public void setPassword(String value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>codebreak_login.account.Password</code>.
+     */
+    public String getPassword() {
         return (String) get(3);
     }
 
@@ -131,14 +131,14 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
     }
 
     /**
-     * Setter for <code>codebreak_login.account.LastConnectionIP</code>.
+     * Setter for <code>codebreak_login.account.LastConnectionIp</code>.
      */
     public void setLastconnectionip(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>codebreak_login.account.LastConnectionIP</code>.
+     * Getter for <code>codebreak_login.account.LastConnectionIp</code>.
      */
     public String getLastconnectionip() {
         return (String) get(7);
@@ -201,16 +201,16 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
     }
 
     /**
-     * Setter for <code>codebreak_login.account.Answer</code>.
+     * Setter for <code>codebreak_login.account.SecretAnswer</code>.
      */
-    public void setAnswer(String value) {
+    public void setSecretanswer(String value) {
         set(12, value);
     }
 
     /**
-     * Getter for <code>codebreak_login.account.Answer</code>.
+     * Getter for <code>codebreak_login.account.SecretAnswer</code>.
      */
-    public String getAnswer() {
+    public String getSecretanswer() {
         return (String) get(12);
     }
 
@@ -281,7 +281,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
      */
     @Override
     public Field<String> field3() {
-        return Account.ACCOUNT.PASSWORD;
+        return Account.ACCOUNT.NICKNAME;
     }
 
     /**
@@ -289,7 +289,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
      */
     @Override
     public Field<String> field4() {
-        return Account.ACCOUNT.NICKNAME;
+        return Account.ACCOUNT.PASSWORD;
     }
 
     /**
@@ -361,7 +361,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
      */
     @Override
     public Field<String> field13() {
-        return Account.ACCOUNT.ANSWER;
+        return Account.ACCOUNT.SECRETANSWER;
     }
 
     /**
@@ -393,7 +393,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
      */
     @Override
     public String value3() {
-        return getPassword();
+        return getNickname();
     }
 
     /**
@@ -401,7 +401,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
      */
     @Override
     public String value4() {
-        return getNickname();
+        return getPassword();
     }
 
     /**
@@ -473,7 +473,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
      */
     @Override
     public String value13() {
-        return getAnswer();
+        return getSecretanswer();
     }
 
     /**
@@ -507,7 +507,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
      */
     @Override
     public AccountRecord value3(String value) {
-        setPassword(value);
+        setNickname(value);
         return this;
     }
 
@@ -516,7 +516,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
      */
     @Override
     public AccountRecord value4(String value) {
-        setNickname(value);
+        setPassword(value);
         return this;
     }
 
@@ -597,7 +597,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
      */
     @Override
     public AccountRecord value13(String value) {
-        setAnswer(value);
+        setSecretanswer(value);
         return this;
     }
 
@@ -646,13 +646,13 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
     /**
      * Create a detached, initialised AccountRecord
      */
-    public AccountRecord(Long id, String name, String password, String nickname, Integer power, Timestamp creationdate, Timestamp lastconnectiondate, String lastconnectionip, Timestamp remainingsubscription, Timestamp banneduntil, Boolean banned, String secretquestion, String answer, String email) {
+    public AccountRecord(Long id, String name, String nickname, String password, Integer power, Timestamp creationdate, Timestamp lastconnectiondate, String lastconnectionip, Timestamp remainingsubscription, Timestamp banneduntil, Boolean banned, String secretquestion, String secretanswer, String email) {
         super(Account.ACCOUNT);
 
         set(0, id);
         set(1, name);
-        set(2, password);
-        set(3, nickname);
+        set(2, nickname);
+        set(3, password);
         set(4, power);
         set(5, creationdate);
         set(6, lastconnectiondate);
@@ -661,7 +661,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
         set(9, banneduntil);
         set(10, banned);
         set(11, secretquestion);
-        set(12, answer);
+        set(12, secretanswer);
         set(13, email);
     }
 }

@@ -11,7 +11,7 @@ import com.codebreak.login.network.LoginServer;
 public final class Main {
 	public static final void main(String[] args) throws Exception {
 		Log.configure();
-		new LoginServer(new Configuration() {			
+		final Configuration config = new Configuration() {			
 			@Override
 			public String string(String key) throws NoSuchElementException {
 				switch(key) {
@@ -36,7 +36,10 @@ public final class Main {
 				}
 				throw new NoSuchElementException("unknow key: " + key);
 			}			
-		}).start();
+		};
+		final Database database = new Database(config);
+		final LoginServer server = new LoginServer(config, database);
+		server.start();
 		while(true) 
 			Thread.sleep(5);
 	}
