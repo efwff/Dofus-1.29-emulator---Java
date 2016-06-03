@@ -1,4 +1,4 @@
-package com.codebreak.login.network.ipc;
+package com.codebreak.login.network.ipc.impl;
 
 import java.io.IOException;
 import java.util.concurrent.Executors;
@@ -11,11 +11,12 @@ import org.terracotta.ipceventbus.event.Event;
 import org.terracotta.ipceventbus.event.EventListener;
 
 import com.codebreak.common.network.ipc.impl.IPCServiceClient;
-import com.codebreak.login.network.structure.HostInformations;
+import com.codebreak.common.util.AbstractTypedObservable;
+import com.codebreak.login.network.ipc.GameServer;
 
-public final class GameService implements HostInformations  {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(GameService.class);
+public final class GameServerProxy extends AbstractTypedObservable<GameServer> implements GameServer {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(GameServerProxy.class);
 	
 	private static final int POOL_SIZE = 1;
 	private static final ScheduledExecutorService EXECUTOR = Executors.newScheduledThreadPool(POOL_SIZE);
@@ -33,18 +34,16 @@ public final class GameService implements HostInformations  {
 	
 	private IPCServiceClient client;
 	
-	public GameService(final int id, final String name, final String host, final int port) {
+	public GameServerProxy(final int id, final String name, final String host, final int port) {
 		this.host = host;
 		this.port = port;
 		this.id = id;
 		this.name = name;
-		this.state = IPCServiceClient.GAME_OFFLINE;
-		this.completionState = 0;
-		this.selectable = false;
 		this.initialState();
 	}
 	
 	private void initialState() {
+		this.resetState();
 		EXECUTOR.schedule(this::connectState, DELAY_BETWEEN_RETRY, RETRY_UNIT);
 	}
 	
@@ -73,19 +72,49 @@ public final class GameService implements HostInformations  {
 						}
 						catch(final IOException ex) {										
 						}
-						initialState();
+						initialState();			
+						fireInformationsChanged();			
 						break;
 						
-					case IPCServiceClient.EVENT_GAME_COMPLETION_UPDATE:
-						completionState = event.getData(Integer.class);
+					case IPCServiceClient.EVENT_GAME_UPDATE_SELECTABLE:
+						updateSelectable(event.getData(Boolean.class));
 						break;
 						
-					case IPCServiceClient.EVENT_GAME_STATE_UPDATE:
-						state = event.getData(Integer.class);
+					case IPCServiceClient.EVENT_GAME_UPDATE_COMPLETION:
+						updateCompletionState(event.getData(Integer.class));
+						break;
+						
+					case IPCServiceClient.EVENT_GAME_UPDATE_STATE:
+						updateState(event.getData(Integer.class));
 						break;
 				}
 			}
 		});
+	}
+	
+	private void resetState() {
+		this.state = IPCServiceClient.GAME_OFFLINE;
+		this.completionState = 0;
+		this.selectable = false;
+	}
+	
+	private void updateSelectable(final boolean selectable) {
+		this.selectable = selectable;
+		this.fireInformationsChanged();
+	}
+	
+	private void updateState(final int state) {
+		this.state = state;
+		this.fireInformationsChanged();
+	}
+	
+	private void updateCompletionState(final int completionState) {
+		this.completionState = completionState;
+		this.fireInformationsChanged();
+	}
+
+	private void fireInformationsChanged() {
+		notifyObservers(observer -> observer.onEvent(this)); 				
 	}
 
 	@Override
@@ -111,5 +140,5 @@ public final class GameService implements HostInformations  {
 	@Override
 	public boolean selectable() {
 		return this.selectable && this.state == IPCServiceClient.GAME_ONLINE;
-	}	
+	}
 }

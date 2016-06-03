@@ -1,29 +1,34 @@
 package com.codebreak.login.network;
 
 import java.util.List;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import com.codebreak.common.network.TcpEvent;
 import com.codebreak.common.persistence.Database;
 import com.codebreak.common.util.concurrent.AbstractService;
+import com.codebreak.login.database.account.impl.ResetConnectedAccounts;
 import com.codebreak.login.database.gameservice.impl.AllGameservice;
-import com.codebreak.login.network.ipc.GameService;
+import com.codebreak.login.network.ipc.GameServer;
+import com.codebreak.login.network.ipc.GameServerSource;
+import com.codebreak.login.network.ipc.impl.GameServerProxy;
 import com.codebreak.login.network.message.LoginMessage;
-import com.codebreak.login.network.structure.GameServiceSource;
-import com.codebreak.login.network.structure.HostInformations;
 
-public class LoginService extends AbstractService<LoginClient> implements GameServiceSource {
+public class LoginService 
+		extends AbstractService<LoginClient>
+		implements GameServerSource {
 		
-	private final List<HostInformations> gameServices;
+	private final List<GameServer> gameServices;
 	
 	public LoginService(final Database database) {
-		super(database);
+		super(Executors.newSingleThreadExecutor(), database);
 		this.gameServices = new AllGameservice(database)
 				.fetch()
 				.get()
 				.stream()
-				.map(record -> new GameService(record.getId(), record.getName(), record.getIp(), record.getPort()))
+				.map(record -> new GameServerProxy(record.getId(), record.getName(), record.getIp(), record.getPort()))
 				.collect(Collectors.toList());
+		new ResetConnectedAccounts(database).fetch();
 	}
 	
 	@Override
@@ -45,7 +50,7 @@ public class LoginService extends AbstractService<LoginClient> implements GameSe
 	}
 
 	@Override
-	public List<HostInformations> gameServices() {
+	public List<GameServer> gameServers() {
 		return this.gameServices;
 	}
 }

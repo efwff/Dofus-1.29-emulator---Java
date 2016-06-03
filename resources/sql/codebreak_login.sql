@@ -33,15 +33,36 @@ CREATE TABLE IF NOT EXISTS `account` (
   `SecretQuestion` varchar(50) DEFAULT 'secret',
   `SecretAnswer` varchar(50) DEFAULT 'secret',
   `Email` varchar(50) DEFAULT 'test@test.test',
+  `Connected` bit(1) DEFAULT b'0',
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Name` (`Name`),
   UNIQUE KEY `Nickname` (`Nickname`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Export de données de la table codebreak_login.account: ~0 rows (environ)
+-- Export de données de la table codebreak_login.account: ~1 rows (environ)
 DELETE FROM `account`;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
+INSERT INTO `account` (`Id`, `Name`, `Nickname`, `Password`, `Power`, `CreationDate`, `LastConnectionDate`, `LastConnectionIp`, `RemainingSubscription`, `BannedUntil`, `Banned`, `SecretQuestion`, `SecretAnswer`, `Email`, `Connected`) VALUES
+	(1, 'Smarken', 'Smarken', 'test', 0, '2016-06-03 13:26:47', '2016-06-03 13:26:47', '?.?.?.?', '2016-06-03 13:26:47', '2016-06-03 13:26:47', b'0', 'test', 'test', 'test@test.test', b'0');
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
+
+
+-- Export de la structure de table codebreak_login. gameservice
+DROP TABLE IF EXISTS `gameservice`;
+CREATE TABLE IF NOT EXISTS `gameservice` (
+  `Id` int(11) NOT NULL,
+  `Name` varchar(50) NOT NULL,
+  `Ip` varchar(15) NOT NULL,
+  `Port` int(11) NOT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Export de données de la table codebreak_login.gameservice: ~1 rows (environ)
+DELETE FROM `gameservice`;
+/*!40000 ALTER TABLE `gameservice` DISABLE KEYS */;
+INSERT INTO `gameservice` (`Id`, `Name`, `Ip`, `Port`) VALUES
+	(1, 'Jiva', '127.0.0.1', 5556);
+/*!40000 ALTER TABLE `gameservice` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -36,7 +36,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Account extends TableImpl<AccountRecord> {
 
-    private static final long serialVersionUID = 332514298;
+    private static final long serialVersionUID = 1666983313;
 
     /**
      * The reference instance of <code>codebreak_login.account</code>
@@ -120,6 +120,11 @@ public class Account extends TableImpl<AccountRecord> {
      * The column <code>codebreak_login.account.Email</code>.
      */
     public final TableField<AccountRecord, String> EMAIL = createField("Email", org.jooq.impl.SQLDataType.VARCHAR.length(50).defaultValue(org.jooq.impl.DSL.inline("test@test.test", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
+
+    /**
+     * The column <code>codebreak_login.account.Connected</code>.
+     */
+    public final TableField<AccountRecord, Boolean> CONNECTED = createField("Connected", org.jooq.impl.SQLDataType.BIT.defaultValue(org.jooq.impl.DSL.inline("b'0'", org.jooq.impl.SQLDataType.BIT)), this, "");
 
     /**
      * Create a <code>codebreak_login.account</code> table reference

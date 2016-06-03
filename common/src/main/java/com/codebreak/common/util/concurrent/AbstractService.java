@@ -25,10 +25,10 @@ public abstract class AbstractService<T>
 	private final EventBus eventBus;
 	private final Database database;
 	
-	public AbstractService(final Database database) {
-		this.executor = Executors.newCachedThreadPool();
-		this.eventBus = new EventBus();
+	public AbstractService(final ExecutorService executor, final Database database) {
+		this.executor = executor;
 		this.database = database;
+		this.eventBus = new EventBus();
 	}
 	
 	protected final DSLContext dbContext() {

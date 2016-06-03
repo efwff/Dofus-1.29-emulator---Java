@@ -1,6 +1,6 @@
-package com.codebreak.login.network.structure;
+package com.codebreak.login.network.ipc;
 
-public interface HostInformations {
+public interface GameServerInformations {
 	int gameServerId();
 	int gameServerState();
 	int completionState();

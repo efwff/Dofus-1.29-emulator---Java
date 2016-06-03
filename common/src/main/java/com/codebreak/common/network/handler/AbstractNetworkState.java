@@ -2,11 +2,12 @@ package com.codebreak.common.network.handler;
 
 import java.util.Arrays;
 import java.util.BitSet;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
 import com.codebreak.common.persistence.Database;
+
+import gnu.trove.set.hash.THashSet;
 
 public abstract class AbstractNetworkState<C, T> implements NetworkState<C> {
 	
@@ -16,7 +17,7 @@ public abstract class AbstractNetworkState<C, T> implements NetworkState<C> {
 	
 	@SafeVarargs
 	public AbstractNetworkState(final Database db, final T data, final AbstractMessageHandler<C>... handlers) {
-		this.handlers = new HashSet<AbstractMessageHandler<C>>(Arrays.asList(handlers));
+		this.handlers = new THashSet<AbstractMessageHandler<C>>(Arrays.asList(handlers));
 		this.bits = new BitSet();
 		this.data = data;
 		this.handlers.forEach(handler -> this.allow(handler.id()));

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.codebreak.common.network.message.AbstractDofusMessage;
-import com.codebreak.login.network.structure.HostInformations;
+import com.codebreak.login.network.ipc.GameServer;
 
 public final class LoginMessage {	
 	
@@ -97,7 +97,7 @@ public final class LoginMessage {
 		};
 	}
 	
-	public static final AbstractDofusMessage ACCOUNT_HOSTS(final List<HostInformations> hosts) {
+	public static final AbstractDofusMessage ACCOUNT_HOSTS(final List<GameServer> hosts) {
 		return new AbstractDofusMessage() {			
 			@Override
 			protected String internalSerialize() {
@@ -114,11 +114,11 @@ public final class LoginMessage {
 		};
 	}
 	
-	public static final AbstractDofusMessage ACCOUNT_CHARACTERS(final List<HostInformations> hosts, final long accountId, final long remainingSubsription) {
+	public static final AbstractDofusMessage ACCOUNT_CHARACTERS(final List<GameServer> serverInformations, final long accountId, final long remainingSubsription) {
 		return new AbstractDofusMessage() {			
 			@Override
 			protected String internalSerialize() {
-				return "AxK" + remainingSubsription + hosts.stream().map(host -> 
+				return "AxK" + remainingSubsription + serverInformations.stream().map(host -> 
 						String.format(
 							"|%d,%d",
 							host.gameServerId(),

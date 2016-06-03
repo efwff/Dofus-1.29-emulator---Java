@@ -2,10 +2,10 @@ package com.codebreak.login.network.handler.impl;
 
 import com.codebreak.common.persistence.Database;
 import com.codebreak.login.network.handler.AbstractLoginState;
-import com.codebreak.login.network.structure.GameServiceSource;
+import com.codebreak.login.network.ipc.GameServerSource;
 
 public final class ProtocolCheckingState extends AbstractLoginState<Object> {
-	public ProtocolCheckingState(final Database db, final GameServiceSource gameServiceSource) {
+	public ProtocolCheckingState(final Database db, final GameServerSource gameServiceSource) {
 		super(db, new Object());
 		register(new ProtocolHandler(this, db, gameServiceSource));
 	}

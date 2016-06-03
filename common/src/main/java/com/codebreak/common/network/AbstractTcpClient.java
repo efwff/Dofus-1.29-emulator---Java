@@ -165,6 +165,7 @@ public abstract class AbstractTcpClient<T>
 	
 	@Override
 	public void failed(final Throwable exc, final Integer operation) {
+		LOGGER.debug("failed while doing I/O op, operation=" + operation, exc);
 		this.disconnected();
 	}  
 		

@@ -8,16 +8,16 @@ import com.codebreak.common.persistence.Database;
 import com.codebreak.login.network.LoginClient;
 import com.codebreak.login.network.handler.AbstractLoginHandler;
 import com.codebreak.login.network.handler.AbstractLoginState;
+import com.codebreak.login.network.ipc.GameServerSource;
 import com.codebreak.login.network.message.LoginMessage;
-import com.codebreak.login.network.structure.GameServiceSource;
 
 public final class ProtocolHandler extends AbstractLoginHandler {
 
 	private static final String PROTOCOL_VERSION = "1.29.1";
 	
-	private final GameServiceSource gameServiceSource;
+	private final GameServerSource gameServiceSource;
 
-	public ProtocolHandler(final AbstractLoginState<?> parent, final Database db, final GameServiceSource gameServiceSource) {
+	public ProtocolHandler(final AbstractLoginState<?> parent, final Database db, final GameServerSource gameServiceSource) {
 		super(parent, db, PROTOCOL);
 		this.gameServiceSource = gameServiceSource;
 	}

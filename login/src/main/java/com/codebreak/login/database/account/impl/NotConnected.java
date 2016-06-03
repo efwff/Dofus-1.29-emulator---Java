@@ -14,9 +14,7 @@ public final class NotConnected extends AbstractAccountOperationWrap {
 	@Override
 	public Optional<AccountRecord> fetch() throws Exception {
 		final Optional<AccountRecord> account = super.fetch();
-		// TODO: check if connected and throw 
-		final boolean alreadyConnected = false;
-		if(alreadyConnected)
+		if(account.get().getConnected())
 			throw new AlreadyConnectedException(account);
 		return account;				
 	}

@@ -4,24 +4,6 @@ import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 import org.jooq.util.GenerationTool;
 import org.jooq.util.jaxb.*;
-/*jdbc() {
-    driver('com.mysql.cj.jdbc.Driver')
-    url('jdbc:mysql://localhost:3306/codebreak_login?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=Europe/Paris')
-    user('root')
-    password('')
-}
-generator() {
-    database() {
-    	name('org.jooq.util.mysql.MySQLDatabase')
-    	includes('.*')
-    	excludes('')
-    	inputSchema('codebreak_login')
-    }
-    target() {
-        packageName('com.codebreak.login.persistence')
-        directory('./src/main/java')
-    }
-}*/
 
 public final class Database {
 
@@ -49,6 +31,10 @@ public final class Database {
 				        .withTarget(new Target()
 				            .withPackageName(config.string(CONFIG_PACKAGE))
 				            .withDirectory("./src/main/java")));
+	}
+	
+	public final Configuration dbConfig() {
+		return this.dbConfig;
 	}
 
 	public DSLContext context() {
