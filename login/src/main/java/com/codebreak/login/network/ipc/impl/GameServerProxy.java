@@ -11,10 +11,12 @@ import org.terracotta.ipceventbus.event.Event;
 import org.terracotta.ipceventbus.event.EventListener;
 
 import com.codebreak.common.network.ipc.impl.IPCServiceClient;
-import com.codebreak.common.util.AbstractTypedObservable;
+import com.codebreak.common.network.ipc.message.impl.GameInformations;
+import com.codebreak.common.network.ipc.message.impl.RegisterAccountTicket;
+import com.codebreak.common.util.AbstractObservable;
 import com.codebreak.login.network.ipc.GameServer;
 
-public final class GameServerProxy extends AbstractTypedObservable<GameServer> implements GameServer {
+public final class GameServerProxy extends AbstractObservable<GameServer> implements GameServer {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(GameServerProxy.class);
 	
@@ -28,9 +30,7 @@ public final class GameServerProxy extends AbstractTypedObservable<GameServer> i
 	private final String name;
 	private final String host;
 	private final int port;
-	private int state;
-	private int completionState;
-	private boolean selectable;
+	private GameInformations gameInfos;
 	
 	private IPCServiceClient client;
 	
@@ -76,16 +76,8 @@ public final class GameServerProxy extends AbstractTypedObservable<GameServer> i
 						fireInformationsChanged();			
 						break;
 						
-					case IPCServiceClient.EVENT_GAME_UPDATE_SELECTABLE:
-						updateSelectable(event.getData(Boolean.class));
-						break;
-						
-					case IPCServiceClient.EVENT_GAME_UPDATE_COMPLETION:
-						updateCompletionState(event.getData(Integer.class));
-						break;
-						
-					case IPCServiceClient.EVENT_GAME_UPDATE_STATE:
-						updateState(event.getData(Integer.class));
+					case IPCServiceClient.EVENT_GAME_UPDATE_INFORMATIONS:
+						updateInformations(event.getData(GameInformations.class));
 						break;
 				}
 			}
@@ -93,52 +85,41 @@ public final class GameServerProxy extends AbstractTypedObservable<GameServer> i
 	}
 	
 	private void resetState() {
-		this.state = IPCServiceClient.GAME_OFFLINE;
-		this.completionState = 0;
-		this.selectable = false;
+		this.gameInfos = new GameInformations(
+					"", 
+					-1, 
+					-1, 
+					IPCServiceClient.GAME_OFFLINE,
+					false
+				);
 	}
-	
-	private void updateSelectable(final boolean selectable) {
-		this.selectable = selectable;
-		this.fireInformationsChanged();
-	}
-	
-	private void updateState(final int state) {
-		this.state = state;
-		this.fireInformationsChanged();
-	}
-	
-	private void updateCompletionState(final int completionState) {
-		this.completionState = completionState;
+
+	private void updateInformations(final GameInformations infos) {
+		this.gameInfos = infos;
 		this.fireInformationsChanged();
 	}
 
 	private void fireInformationsChanged() {
 		notifyObservers(observer -> observer.onEvent(this)); 				
 	}
+	
+	@Override
+	public int id() {
+		return this.id;
+	}
+	
+	@Override
+	public GameInformations gameInfos() {
+		return this.gameInfos;
+	}
 
 	@Override
-	public int gameServerId() {
-		return this.id;
+	public void transfertPlayer(final RegisterAccountTicket message) {
+		client.trigger(IPCServiceClient.EVENT_LOGIN_PLAYER_TRANSFERT, message);
 	}
 
 	@Override
 	public int characterCount(long accountId) {
 		return 1;
-	}
-
-	@Override
-	public int gameServerState() {
-		return this.state;
-	}
-
-	@Override
-	public int completionState() {
-		return this.completionState;
-	}
-
-	@Override
-	public boolean selectable() {
-		return this.selectable && this.state == IPCServiceClient.GAME_ONLINE;
 	}
 }

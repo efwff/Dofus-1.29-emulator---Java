@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.codebreak.common.persistence.impl.Database;
-import com.codebreak.common.util.AbstractTypedObservable;
+import com.codebreak.common.util.AbstractObservable;
 import com.codebreak.common.util.Configuration;
 import com.codebreak.common.util.Identities;
 import com.codebreak.common.util.TypedObserver;
@@ -23,9 +23,9 @@ import com.codebreak.common.util.concurrent.AbstractService;
 import com.codebreak.common.util.impl.IntRangeIdentities;
 import com.codebreak.common.util.impl.LinearBufferStack;
 
-public abstract class AbstractTcpServer<C extends AbstractTcpClient<C>> 
-extends AbstractTypedObservable<TcpEvent<C>>
-implements TypedObserver<TcpEvent<C>>, CompletionHandler<AsynchronousSocketChannel, Void> {	
+public abstract class AbstractTcpServer<C extends AbstractTcpClient<C>, S extends AbstractService<C>> 
+	extends AbstractObservable<TcpEvent<C>>
+	implements TypedObserver<TcpEvent<C>>, CompletionHandler<AsynchronousSocketChannel, Void> {	
 
 	protected static final Logger LOGGER = LoggerFactory.getLogger(AbstractTcpServer.class);
 	
@@ -42,10 +42,10 @@ implements TypedObserver<TcpEvent<C>>, CompletionHandler<AsynchronousSocketChann
 	private final Identities<Integer> clientIdentities;
 	private final AsynchronousServerSocketChannel serverChannel;
 	private final Set<C> clients;
-	protected final AbstractService<C> service;
-	protected final Database database;
+	private final S service;
+	private final Database database;
 	
-	public AbstractTcpServer(final Configuration config, final AbstractService<C> service, final Database database) throws NoSuchElementException, IOException {
+	public AbstractTcpServer(final Database database, final Configuration config, final S service) throws NoSuchElementException, IOException {
 		super(service);
 		this.service = service;
 		this.database = database;
@@ -92,7 +92,7 @@ implements TypedObserver<TcpEvent<C>>, CompletionHandler<AsynchronousSocketChann
 		this.acceptNext();
 		final int identity = this.acquireClientIdentity();
 		final ByteBuffer buffer = this.acquireClientBuffer(identity);
-		final C client = this.createClient(identity, buffer, channel);
+		final C client = this.createClient(identity, buffer, channel, this.database, this.service);
 		this.clients.add(client);
 		client.addObserver(this);
 		client.read();
@@ -127,5 +127,11 @@ implements TypedObserver<TcpEvent<C>>, CompletionHandler<AsynchronousSocketChann
 		this.notifyObservers(observer -> observer.onEvent(new TcpEvent<C>(client, type)));
 	}
 	
-	public abstract C createClient(final int identity, final ByteBuffer buffer, final AsynchronousSocketChannel channel);
+	public abstract C createClient(
+		final int identity, 
+		final ByteBuffer buffer,
+		final AsynchronousSocketChannel channel,
+		final Database database,
+		final S service
+	);
 }

@@ -5,9 +5,9 @@ import java.util.function.BiFunction;
 
 import com.codebreak.common.network.handler.NetworkState;
 import com.codebreak.common.persistence.impl.Database;
-import com.codebreak.login.network.LoginClient;
 import com.codebreak.login.network.handler.AbstractLoginHandler;
 import com.codebreak.login.network.handler.AbstractLoginState;
+import com.codebreak.login.network.impl.LoginClient;
 import com.codebreak.login.network.ipc.GameServerSource;
 import com.codebreak.login.network.message.LoginMessage;
 

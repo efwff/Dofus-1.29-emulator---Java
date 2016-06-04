@@ -7,12 +7,12 @@ import java.util.function.Consumer;
 import gnu.trove.set.hash.THashSet;
 
 
-public abstract class AbstractTypedObservable<T> implements TypedObservable<T> {
+public abstract class AbstractObservable<T> implements TypedObservable<T> {
 	
 	private final Set<TypedObserver<T>> observers;
 		
 	@SafeVarargs
-	public AbstractTypedObservable(final TypedObserver<T>... observers) {
+	public AbstractObservable(final TypedObserver<T>... observers) {
 		this.observers = new THashSet<>(Arrays.asList(observers));
 	}
 	
@@ -22,6 +22,10 @@ public abstract class AbstractTypedObservable<T> implements TypedObservable<T> {
 	
 	public void removeObserver(TypedObserver<T> observer) {
 		this.observers.remove(observer);
+	}
+	
+	public void removeObservers() {
+		this.observers.clear();
 	}
 	
 	public void notifyObservers(Consumer<TypedObserver<T>> action) {

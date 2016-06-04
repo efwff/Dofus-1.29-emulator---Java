@@ -1,4 +1,4 @@
-package com.codebreak.login.network;
+package com.codebreak.login.network.impl;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -9,18 +9,24 @@ import com.codebreak.common.network.AbstractTcpServer;
 import com.codebreak.common.persistence.impl.Database;
 import com.codebreak.common.util.Configuration;
 
-public final class LoginServer extends AbstractTcpServer<LoginClient> {
+public final class LoginServer extends AbstractTcpServer<LoginClient, LoginService> {
 	
 	public LoginServer(final Configuration config, final Database database) throws NoSuchElementException, IOException {		
 		super(
+			database,
 			config, 
-			new LoginService(database),
-			database
+			new LoginService(database)
 		);
 	}
 	
 	@Override
-	public LoginClient createClient(int identity, ByteBuffer buffer, AsynchronousSocketChannel channel) {
-		return new LoginClient(identity, buffer, channel, (LoginService)service, database);
+	public LoginClient createClient(final int identity, final ByteBuffer buffer, final AsynchronousSocketChannel channel, final Database database, final LoginService service) {
+		return new LoginClient(
+					identity, 
+					buffer, 
+					channel, 
+					database,
+					service
+				);
 	}	
 }

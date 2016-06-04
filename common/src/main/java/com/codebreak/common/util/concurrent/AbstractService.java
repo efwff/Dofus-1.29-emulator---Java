@@ -19,8 +19,8 @@ public abstract class AbstractService<T>
 	extends AbstractExecutorService
 	implements TypedObserver<TcpEvent<T>> {
 	
-	@SuppressWarnings("unused")
-	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractService.class);
+	protected static final Logger LOGGER = LoggerFactory.getLogger(AbstractService.class);
+	
 	private final ExecutorService executor;
 	private final EventBus eventBus;
 	private final Database database;

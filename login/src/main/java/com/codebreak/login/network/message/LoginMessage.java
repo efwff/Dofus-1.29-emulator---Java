@@ -20,12 +20,12 @@ public final class LoginMessage {
 	}
 	
 	public enum LoginFailureReason {
-		LOGIN_ERROR_PROTOCOL('v'),
-		LOGIN_ERROR_CREDENTIALS('f'),
-		LOGIN_ERROR_BANNED('b'),
-		LOGIN_ERROR_ALREADY_CONNECTED('c'),
-		LOGIN_ERROR_SERVER_BUSY('w'),
-		LOGIN_ERROR_SERVER_MAINTENANCE('m');	
+		PROTOCOL_REQUIRED('v'),
+		WRONG_CREDENTIALS('f'),
+		BANNED('b'),
+		ACCOUNT_ALREADY_CONNECTED('c'),
+		SERVER_BUSY('w'),
+		SERVER_MAINTENANCE('m');	
 		
 		private final char code;
 		LoginFailureReason(char code) {
@@ -36,12 +36,33 @@ public final class LoginMessage {
 		}
 	}
 	
-	public static final AbstractDofusMessage LOGIN_FAILURE_PROTOCOL = LOGIN_FAILURE(LoginFailureReason.LOGIN_ERROR_PROTOCOL);
-	public static final AbstractDofusMessage LOGIN_FAILURE_CREDENTIALS = LOGIN_FAILURE(LoginFailureReason.LOGIN_ERROR_CREDENTIALS);
-	public static final AbstractDofusMessage LOGIN_FAILURE_BANNED = LOGIN_FAILURE(LoginFailureReason.LOGIN_ERROR_BANNED);
-	public static final AbstractDofusMessage LOGIN_FAILURE_BUSY = LOGIN_FAILURE(LoginFailureReason.LOGIN_ERROR_SERVER_BUSY);
-	public static final AbstractDofusMessage LOGIN_FAILURE_MAINTENANCE = LOGIN_FAILURE(LoginFailureReason.LOGIN_ERROR_SERVER_MAINTENANCE);
-	public static final AbstractDofusMessage LOGIN_FAILURE_CONNECTED = LOGIN_FAILURE(LoginFailureReason.LOGIN_ERROR_ALREADY_CONNECTED);
+	public enum WorldSelectionFailureReason {
+		
+		SERVER_DOWN('d'),
+		SERVER_FULL_BUT_SOME_AVAILABLE('f'),
+		SERVER_FULL('F'),
+		GENERIC('r');
+		
+		
+		private final char code;
+		WorldSelectionFailureReason(char code) {
+			this.code = code;
+		}
+		public final char code() {
+			return this.code;
+		}
+	}
+	
+	public static final AbstractDofusMessage WORLD_SELECT_FAILURE_DOWN = WORLD_SELECTION_FAILURE(WorldSelectionFailureReason.SERVER_DOWN);
+	public static final AbstractDofusMessage WORLD_SELECT_FAILURE_FULL = WORLD_SELECTION_FAILURE(WorldSelectionFailureReason.SERVER_FULL);
+	public static final AbstractDofusMessage WORLD_SELECT_FAILURE_UNKNOW = WORLD_SELECTION_FAILURE(WorldSelectionFailureReason.GENERIC);
+	
+	public static final AbstractDofusMessage LOGIN_FAILURE_PROTOCOL = LOGIN_FAILURE(LoginFailureReason.PROTOCOL_REQUIRED);
+	public static final AbstractDofusMessage LOGIN_FAILURE_CREDENTIALS = LOGIN_FAILURE(LoginFailureReason.WRONG_CREDENTIALS);
+	public static final AbstractDofusMessage LOGIN_FAILURE_BANNED = LOGIN_FAILURE(LoginFailureReason.BANNED);
+	public static final AbstractDofusMessage LOGIN_FAILURE_BUSY = LOGIN_FAILURE(LoginFailureReason.SERVER_BUSY);
+	public static final AbstractDofusMessage LOGIN_FAILURE_MAINTENANCE = LOGIN_FAILURE(LoginFailureReason.SERVER_MAINTENANCE);
+	public static final AbstractDofusMessage LOGIN_FAILURE_CONNECTED = LOGIN_FAILURE(LoginFailureReason.ACCOUNT_ALREADY_CONNECTED);
 	
 	public static final AbstractDofusMessage HELLO_CONNECT(final String key) {
 		return new AbstractDofusMessage() {
@@ -101,13 +122,13 @@ public final class LoginMessage {
 		return new AbstractDofusMessage() {			
 			@Override
 			protected String internalSerialize() {
-				return "AH" + hosts.stream().map(host -> 
+				return "AH" + hosts.stream().map(server -> 
 						String.format(
 							"|%d;%d;%d;%d",
-							host.gameServerId(),
-							host.gameServerState(),
-							host.completionState(),
-							host.selectable() ? 1 : 0
+							server.id(),
+							server.gameInfos().state(),
+							server.gameInfos().completion(),
+							server.gameInfos().selectable() ? 1 : 0
 						)
 					).collect(Collectors.joining());
 			}
@@ -118,13 +139,36 @@ public final class LoginMessage {
 		return new AbstractDofusMessage() {			
 			@Override
 			protected String internalSerialize() {
-				return "AxK" + remainingSubsription + serverInformations.stream().map(host -> 
+				return "AxK" + remainingSubsription + serverInformations.stream().map(server -> 
 						String.format(
 							"|%d,%d",
-							host.gameServerId(),
-							host.characterCount(accountId)
+							server.id(),
+							server.characterCount(accountId)
 						)
 					).collect(Collectors.joining());
+			}
+		};
+	}
+	
+	public static final AbstractDofusMessage WORLD_SELECTION_FAILURE(final WorldSelectionFailureReason reason) {
+		return new AbstractDofusMessage() {
+			@Override
+			protected String internalSerialize() {
+				return "AXE" + reason.code();
+			}
+		};
+	}
+	
+	public static final AbstractDofusMessage WORLD_SELECTION_SUCCESS(final String ip, final int port, final String ticket) {
+		return new AbstractDofusMessage() {			
+			@Override
+			protected String internalSerialize() {
+				return String.format(
+							"AYK%s:%d:%s",
+							ip,
+							port,
+							ticket
+					   );
 			}
 		};
 	}

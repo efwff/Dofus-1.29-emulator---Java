@@ -12,10 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.codebreak.common.network.message.AbstractDofusMessage;
-import com.codebreak.common.util.AbstractTypedObservable;
+import com.codebreak.common.util.AbstractObservable;
 
 public abstract class AbstractTcpClient<T> 
-	extends AbstractTypedObservable<TcpEvent<T>> 
+	extends AbstractObservable<TcpEvent<T>> 
 	implements CompletionHandler<Integer, Integer> {
 
 	protected static final Logger LOGGER = LoggerFactory.getLogger(AbstractTcpClient.class);

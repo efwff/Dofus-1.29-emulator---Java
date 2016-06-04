@@ -2,7 +2,7 @@ package com.codebreak.login.network.handler;
 
 import com.codebreak.common.network.handler.AbstractMessageHandler;
 import com.codebreak.common.persistence.impl.Database;
-import com.codebreak.login.network.LoginClient;
+import com.codebreak.login.network.impl.LoginClient;
 
 public abstract class AbstractLoginHandler extends AbstractMessageHandler<LoginClient> {
 	

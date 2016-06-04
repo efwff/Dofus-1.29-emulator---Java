@@ -15,11 +15,12 @@ public abstract class AbstractIPCService {
 	public final static String EVENT_CLIENT_CONNECT = "eventbus.client.connect";
 	public final static String EVENT_CLIENT_DISCONNECT = "eventbus.client.disconnect";
 	
-	public final static String EVENT_GAME_UPDATE_SELECTABLE = "game.update.selectable";
-	public final static String EVENT_GAME_UPDATE_STATE = "game.state.update";
-	public final static String EVENT_GAME_UPDATE_COMPLETION = "game.completion.update";
+	public final static String EVENT_GAME_UPDATE_INFORMATIONS = "game.update.informations";
 	public final static String EVENT_GAME_PLAYER_DISCONNECTED = "game.player.disconnected";
 	public final static String EVENT_GAME_PLAYER_CONNECTED = "game.player.connected";
+	
+	public final static String EVENT_LOGIN_PLAYER_KICK = "login.player.kick";
+	public final static String EVENT_LOGIN_PLAYER_TRANSFERT = "login.player.transfert";
 	
     public final static int GAME_OFFLINE = 0;
     public final static int GAME_ONLINE = 1;

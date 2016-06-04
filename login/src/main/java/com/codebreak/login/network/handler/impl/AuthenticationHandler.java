@@ -20,10 +20,10 @@ import com.codebreak.login.database.account.impl.exception.BannedException;
 import com.codebreak.login.database.account.impl.exception.ExistantException;
 import com.codebreak.login.database.account.impl.exception.NonExistantException;
 import com.codebreak.login.database.account.impl.exception.WrongPasswordException;
-import com.codebreak.login.network.LoginClient;
 import com.codebreak.login.network.handler.AbstractLoginHandler;
 import com.codebreak.login.network.handler.AbstractLoginState;
 import com.codebreak.login.network.handler.LoginState;
+import com.codebreak.login.network.impl.LoginClient;
 import com.codebreak.login.network.ipc.GameServerSource;
 import com.codebreak.login.network.message.LoginMessage;
 import com.codebreak.login.persistence.tables.records.AccountRecord;
@@ -88,18 +88,23 @@ public final class AuthenticationHandler extends AbstractLoginHandler {
 	
 	private final Optional<LoginState> authenticationRequest(final LoginClient client, final String message) {
 		try {
+			
 			final AccountRecord account = this.checkAccount(client.encryptKey(), message).get();
 			account.setConnected(true);
-			account.update();			
-			client.addObserver(new TypedObserver<TcpEvent<LoginClient>>() {				
+			account.update();	
+			
+			final TypedObserver<TcpEvent<LoginClient>> accountDisconnectTrigger = new TypedObserver<TcpEvent<LoginClient>>() {				
 				@Override
 				public void onEvent(TcpEvent<LoginClient> event) {
 					if(event.type() == TcpEventType.DISCONNECTED) {
+						LOGGER.debug("account disconnection triggered");
 						account.setConnected(false);
 						account.update();
 					}
 				}
-			});
+			};
+			client.addObserver(accountDisconnectTrigger);
+			
 			client.write(
 				AbstractDofusMessage.batch(
 					LoginMessage.LOGIN_SUCCESS(account.getPower()),
@@ -107,7 +112,8 @@ public final class AuthenticationHandler extends AbstractLoginHandler {
 					LoginMessage.ACCOUNT_SECRET_QUESTION(account.getSecretquestion())
 				)
 			);			
-			return next(new ServerSelectionState(db(), account, this.gameServiceSource));
+			
+			return next(new ServerSelectionState(db(), account, this.gameServiceSource, accountDisconnectTrigger));
 		} 
 		catch (final NonExistantException | ExistantException | WrongPasswordException e) {
 			client.write(LoginMessage.LOGIN_FAILURE_CREDENTIALS);
@@ -119,9 +125,12 @@ public final class AuthenticationHandler extends AbstractLoginHandler {
 			client.write(LoginMessage.LOGIN_FAILURE_CONNECTED);				
 		} 
 		catch (final Exception e) {
+			LOGGER.error(
+						"failed to authenticate player",
+						e
+					);
 			client.closeChannel();
-			e.printStackTrace();
-		}
+		} 
 		return fail();
 	}
 }

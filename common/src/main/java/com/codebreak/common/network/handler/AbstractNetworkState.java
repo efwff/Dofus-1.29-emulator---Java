@@ -15,12 +15,10 @@ public abstract class AbstractNetworkState<C, T> implements NetworkState<C> {
 	private final Set<AbstractMessageHandler<C>> handlers;
 	private final BitSet bits;
 	
-	@SafeVarargs
-	public AbstractNetworkState(final Database db, final T data, final AbstractMessageHandler<C>... handlers) {
-		this.handlers = new THashSet<AbstractMessageHandler<C>>(Arrays.asList(handlers));
+	public AbstractNetworkState(final Database db, final T data) {
+		this.handlers = new THashSet<AbstractMessageHandler<C>>();
 		this.bits = new BitSet();
 		this.data = data;
-		this.handlers.forEach(handler -> this.allow(handler.id()));
 	}
 	
 	public T data() {

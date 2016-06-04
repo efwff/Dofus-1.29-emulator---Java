@@ -2,10 +2,10 @@ package com.codebreak.login.network.handler;
 
 import com.codebreak.common.network.handler.AbstractNetworkState;
 import com.codebreak.common.persistence.impl.Database;
-import com.codebreak.login.network.LoginClient;
+import com.codebreak.login.network.impl.LoginClient;
 
 public abstract class AbstractLoginState<T> extends AbstractNetworkState<LoginClient, T> implements LoginState {
-	public AbstractLoginState(final Database db, final T data, final AbstractLoginHandler... handlers) {
-		super(db, data, handlers);
+	public AbstractLoginState(final Database db, final T data) {
+		super(db, data);
 	}
 }

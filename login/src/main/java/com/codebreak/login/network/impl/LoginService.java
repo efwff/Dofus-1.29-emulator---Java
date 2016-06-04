@@ -1,4 +1,4 @@
-package com.codebreak.login.network;
+package com.codebreak.login.network.impl;
 
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -26,7 +26,14 @@ public class LoginService
 				.fetch()
 				.get()
 				.stream()
-				.map(record -> new GameServerProxy(record.getId(), record.getName(), record.getIp(), record.getPort()))
+				.map(record -> 
+					new GameServerProxy(
+						record.getId(), 
+						record.getName(),
+						record.getIp(), 
+						record.getPort()
+					)
+				)
 				.collect(Collectors.toList());
 		new ResetConnectedAccounts(database).fetch();
 	}
