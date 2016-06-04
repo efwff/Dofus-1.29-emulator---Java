@@ -31,6 +31,10 @@ public abstract class AbstractService<T>
 		this.eventBus = new EventBus();
 	}
 	
+	protected final Database db() {
+		return this.database;
+	}
+	
 	protected final DSLContext dbContext() {
 		return this.database.context();
 	}

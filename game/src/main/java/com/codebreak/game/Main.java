@@ -4,6 +4,7 @@ import com.codebreak.common.network.ipc.GameInformationsSource;
 import com.codebreak.common.network.ipc.impl.IPCServiceServer;
 import com.codebreak.common.network.ipc.message.impl.GameInformations;
 import com.codebreak.common.util.impl.Log;
+import com.codebreak.game.logic.impl.Tickets;
 import com.codebreak.game.network.ipc.impl.GameInformationsEndpoint;
 
 public final class Main {
@@ -21,7 +22,7 @@ public final class Main {
 							true
 						);
 			}
-		});
+		}, new Tickets());
 		while(true)
 			Thread.sleep(10);
 	}

@@ -10,9 +10,9 @@ import com.codebreak.common.persistence.impl.Database;
 import com.codebreak.login.database.account.AbstractAccountOperation;
 import com.codebreak.login.persistence.tables.records.AccountRecord;
 
-public final class ResetConnectedAccounts extends AbstractAccountOperation {
+public final class DisconnectAccounts extends AbstractAccountOperation {
 
-	public ResetConnectedAccounts(final Database database) {
+	public DisconnectAccounts(final Database database) {
 		super(database);
 	}
 

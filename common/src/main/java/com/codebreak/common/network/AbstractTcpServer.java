@@ -124,7 +124,7 @@ public abstract class AbstractTcpServer<C extends AbstractTcpClient<C>, S extend
 	}
 		
 	protected void fireEvent(final C client, final TcpEventType type) {
-		this.notifyObservers(observer -> observer.onEvent(new TcpEvent<C>(client, type)));
+		this.notifyObservers(new TcpEvent<C>(client, type));
 	}
 	
 	public abstract C createClient(

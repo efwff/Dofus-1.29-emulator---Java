@@ -185,7 +185,7 @@ public abstract class AbstractTcpClient<T>
 	
 	@SuppressWarnings("unchecked")
 	private void notifyObservers(final TcpEventType type) {
-		this.notifyObservers(observer -> observer.onEvent(new TcpEvent<T>((T)this, type)));
+		this.notifyObservers(new TcpEvent<T>((T)this, type));
 	}
 	
 	protected abstract void handleIncomming(final int count, final ByteBuffer buffer);

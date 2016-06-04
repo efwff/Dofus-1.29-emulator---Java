@@ -22,7 +22,7 @@ public class AccountByName extends AbstractAccountOperation {
 	@Override	
 	protected Optional<AccountRecord> fetchInternal(DSLContext context) {
 		return context.selectFrom(ACCOUNT)
-				   .where(ACCOUNT.NAME.equal(name))
+				   .where(ACCOUNT.NAME.eq(name))
 				   .fetchOptional();	
 	}
 }

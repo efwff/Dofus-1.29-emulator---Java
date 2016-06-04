@@ -6,9 +6,12 @@ import java.util.stream.Collectors;
 
 import com.codebreak.common.network.TcpEvent;
 import com.codebreak.common.persistence.impl.Database;
+import com.codebreak.common.util.TypedObserver;
 import com.codebreak.common.util.concurrent.AbstractService;
-import com.codebreak.login.database.account.impl.ResetConnectedAccounts;
+import com.codebreak.login.database.account.impl.DisconnectAccount;
+import com.codebreak.login.database.account.impl.DisconnectAccounts;
 import com.codebreak.login.database.gameservice.impl.AllGameservice;
+import com.codebreak.login.network.ipc.GameEvent;
 import com.codebreak.login.network.ipc.GameServer;
 import com.codebreak.login.network.ipc.GameServerSource;
 import com.codebreak.login.network.ipc.impl.GameServerProxy;
@@ -26,20 +29,28 @@ public class LoginService
 				.fetch()
 				.get()
 				.stream()
-				.map(record -> 
-					new GameServerProxy(
-						record.getId(), 
-						record.getName(),
-						record.getIp(), 
-						record.getPort()
-					)
+				.map(record -> {
+						final GameServerProxy proxy = new GameServerProxy(
+							record.getId(), 
+							record.getName(),
+							record.getIp(), 
+							record.getPort()
+						);
+						proxy.addObserver(new TypedObserver<GameEvent>() {						
+							@Override
+							public void onEvent(final GameEvent event) {
+								onGameEvent(event);
+							}
+						});
+						return proxy;
+					}
 				)
 				.collect(Collectors.toList());
-		new ResetConnectedAccounts(database).fetch();
+		new DisconnectAccounts(database).fetch();
 	}
 	
 	@Override
-	public void onEvent(TcpEvent<LoginClient> event) {
+	public void onEvent(final TcpEvent<LoginClient> event) {
 		switch(event.type()) {
 			case CONNECTED:
 				event.object().write(LoginMessage.HELLO_CONNECT(event.object().encryptKey()));
@@ -52,6 +63,16 @@ public class LoginService
 				break;
 				
 			case SENT:
+				break;
+		}
+	}
+	
+	private void onGameEvent(final GameEvent event) {
+		switch(event.type()) {
+			case PLAYER_DISCONNECTED:
+				new DisconnectAccount(db(), event.data()).fetch();
+				break;
+			case UPDATE_INFOS:
 				break;
 		}
 	}

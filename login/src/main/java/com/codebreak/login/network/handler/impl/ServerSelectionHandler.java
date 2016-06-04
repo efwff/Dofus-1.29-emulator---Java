@@ -6,7 +6,7 @@ import java.util.function.BiFunction;
 
 import com.codebreak.common.network.TcpEvent;
 import com.codebreak.common.network.TcpEventType;
-import com.codebreak.common.network.ipc.message.impl.RegisterAccountTicket;
+import com.codebreak.common.network.ipc.message.impl.TransfertTicket;
 import com.codebreak.common.persistence.impl.Database;
 import com.codebreak.common.util.TypedObserver;
 import com.codebreak.common.util.impl.GeneratedString;
@@ -14,6 +14,8 @@ import com.codebreak.login.network.handler.AbstractLoginHandler;
 import com.codebreak.login.network.handler.AbstractLoginState;
 import com.codebreak.login.network.handler.LoginState;
 import com.codebreak.login.network.impl.LoginClient;
+import com.codebreak.login.network.ipc.GameEvent;
+import com.codebreak.login.network.ipc.GameEventType;
 import com.codebreak.login.network.ipc.GameServer;
 import com.codebreak.login.network.ipc.GameServerSource;
 import com.codebreak.login.network.message.LoginMessage;
@@ -57,11 +59,13 @@ public final class ServerSelectionHandler extends AbstractLoginHandler {
 	private Optional<LoginState> serverListRequest(final LoginClient client, final String message) {
 		this.sendHosts(client, this.gameServiceSource.gameServers());
 		this.sendCharacters(client, this.gameServiceSource.gameServers());
-		final TypedObserver<GameServer> trigger = new TypedObserver<GameServer>() {
+		final TypedObserver<GameEvent> trigger = new TypedObserver<GameEvent>() {
 			@Override
-			public void onEvent(final GameServer event) {
-				LOGGER.debug("game server update triggered");
-				sendHosts(client, Lists.newArrayList(event));
+			public void onEvent(final GameEvent event) {
+				if(event.type() == GameEventType.UPDATE_INFOS) {
+					LOGGER.debug("game server update triggered");
+					sendHosts(client, Lists.newArrayList(event.server()));
+				}
 			}			
 		};
 		client.addObserver(new TypedObserver<TcpEvent<LoginClient>>() {	
@@ -128,8 +132,10 @@ public final class ServerSelectionHandler extends AbstractLoginHandler {
 		final String ticket = new GeneratedString(TICKET_LENGTH).value();
 		
 		server.transfertPlayer(
-			new RegisterAccountTicket(
+			new TransfertTicket(
 				account.getId(), 
+				account.getName(),
+				account.getNickname(),
 				account.getRemainingsubscription(),
 				account.getPower(), 
 				ticket

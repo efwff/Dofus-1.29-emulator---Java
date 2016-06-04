@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.function.Consumer;
 
+import gnu.trove.procedure.TObjectProcedure;
 import gnu.trove.set.hash.THashSet;
 
 
@@ -28,8 +29,14 @@ public abstract class AbstractObservable<T> implements TypedObservable<T> {
 		this.observers.clear();
 	}
 	
-	public void notifyObservers(Consumer<TypedObserver<T>> action) {
+	public void notifyObservers(final T event) {
 		new THashSet<>(observers)
-			.forEach(action);
+			.forEach(new TObjectProcedure<TypedObserver<T>>() {
+				@Override
+				public boolean execute(final TypedObserver<T> object) {
+					object.onEvent(event);
+					return true;
+				}
+			});
 	}
 }

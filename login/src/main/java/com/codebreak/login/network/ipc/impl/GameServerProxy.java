@@ -12,11 +12,14 @@ import org.terracotta.ipceventbus.event.EventListener;
 
 import com.codebreak.common.network.ipc.impl.IPCServiceClient;
 import com.codebreak.common.network.ipc.message.impl.GameInformations;
-import com.codebreak.common.network.ipc.message.impl.RegisterAccountTicket;
+import com.codebreak.common.network.ipc.message.impl.TransfertTicket;
 import com.codebreak.common.util.AbstractObservable;
+import com.codebreak.login.network.ipc.GameEvent;
+import com.codebreak.login.network.ipc.GameEventType;
 import com.codebreak.login.network.ipc.GameServer;
 
-public final class GameServerProxy extends AbstractObservable<GameServer> implements GameServer {
+public final class GameServerProxy 
+	extends AbstractObservable<GameEvent> implements GameServer {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(GameServerProxy.class);
 	
@@ -79,6 +82,10 @@ public final class GameServerProxy extends AbstractObservable<GameServer> implem
 					case IPCServiceClient.EVENT_GAME_UPDATE_INFORMATIONS:
 						updateInformations(event.getData(GameInformations.class));
 						break;
+						
+					case IPCServiceClient.EVENT_GAME_PLAYER_DISCONNECTED:
+						fireEvent(GameEventType.PLAYER_DISCONNECTED, event.getData(Long.class));
+						break;
 				}
 			}
 		});
@@ -100,7 +107,15 @@ public final class GameServerProxy extends AbstractObservable<GameServer> implem
 	}
 
 	private void fireInformationsChanged() {
-		notifyObservers(observer -> observer.onEvent(this)); 				
+		this.fireEvent(GameEventType.UPDATE_INFOS);
+	}
+	
+	private void fireEvent(final GameEventType type) {
+		this.fireEvent(type, new Object());
+	}
+	
+	private void fireEvent(final GameEventType type, final Object data) {
+		this.notifyObservers(new GameEvent(type, this, data));
 	}
 	
 	@Override
@@ -114,7 +129,7 @@ public final class GameServerProxy extends AbstractObservable<GameServer> implem
 	}
 
 	@Override
-	public void transfertPlayer(final RegisterAccountTicket message) {
+	public void transfertPlayer(final TransfertTicket message) {
 		client.trigger(IPCServiceClient.EVENT_LOGIN_PLAYER_TRANSFERT, message);
 	}
 
