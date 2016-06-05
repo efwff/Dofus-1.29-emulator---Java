@@ -4,9 +4,8 @@ import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
 
 import com.codebreak.common.network.AbstractDofusClient;
-import com.codebreak.common.persistence.impl.Database;
 import com.codebreak.common.util.impl.GeneratedString;
-import com.codebreak.login.network.handler.impl.ProtocolCheckingState;
+import com.codebreak.login.network.handler.LoginState;
 
 public class LoginClient extends AbstractDofusClient<LoginClient> {
 	
@@ -14,8 +13,8 @@ public class LoginClient extends AbstractDofusClient<LoginClient> {
 	
 	private final String encryptKey;
 	
-	public LoginClient(final int identity, final ByteBuffer buffer, final AsynchronousSocketChannel channel, final Database database, final LoginService service) {
-		super(identity, buffer, channel, service, new ProtocolCheckingState(database, service));
+	public LoginClient(final int identity, final ByteBuffer buffer, final AsynchronousSocketChannel channel, final LoginService service, final LoginState initialState) {
+		super(identity, buffer, channel, service, initialState);
 		this.encryptKey = new GeneratedString(KEY_LENGTH).value();
 	}	
 	

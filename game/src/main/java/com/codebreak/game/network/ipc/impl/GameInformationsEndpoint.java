@@ -7,8 +7,8 @@ import com.codebreak.common.network.ipc.GameInformationsSource;
 import com.codebreak.common.network.ipc.impl.IPCServiceServer;
 import com.codebreak.common.network.ipc.message.impl.TransfertTicket;
 import com.codebreak.common.util.TypedObserver;
-import com.codebreak.game.logic.TicketVerificationSource;
-import com.codebreak.game.logic.impl.TicketEvent;
+import com.codebreak.game.logic.authentication.TicketVerificationSource;
+import com.codebreak.game.logic.authentication.impl.TicketEvent;
 
 public final class GameInformationsEndpoint 
 	extends IPCServiceServer 
@@ -66,7 +66,7 @@ public final class GameInformationsEndpoint
 		);
 	}
 	
-	private void registerTicket(TransfertTicket message) {
-		this.ticketSource.register(message);
+	private void registerTicket(final TransfertTicket ticket) {
+		this.ticketSource.register(ticket);
 	}
 }

@@ -2,7 +2,6 @@ package com.codebreak.login;
 
 import java.util.NoSuchElementException;
 
-import com.codebreak.common.network.AbstractTcpServer;
 import com.codebreak.common.persistence.impl.Database;
 import com.codebreak.common.util.Configuration;
 import com.codebreak.common.util.impl.Log;
@@ -15,13 +14,13 @@ public final class Main {
 			@Override
 			public String string(String key) throws NoSuchElementException {
 				switch(key) {
-					case AbstractTcpServer.CONFIG_HOST:
+					case LoginServer.CONFIG_HOST:
 						return "127.0.0.1";
-					case AbstractTcpServer.CONFIG_PORT:
+					case LoginServer.CONFIG_PORT:
 						return "5555";
-					case AbstractTcpServer.CONFIG_MAX_CLIENT:
+					case LoginServer.CONFIG_MAX_CLIENT:
 						return "500";
-					case AbstractTcpServer.CONFIG_BUFF_SIZE:
+					case LoginServer.CONFIG_BUFF_SIZE:
 						return "1024";
 					case Database.CONFIG_PACKAGE:
 						return "com.codebreak.login.persistence";

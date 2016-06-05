@@ -53,7 +53,7 @@ public class LoginService
 	public void onEvent(final TcpEvent<LoginClient> event) {
 		switch(event.type()) {
 			case CONNECTED:
-				event.object().write(LoginMessage.HELLO_CONNECT(event.object().encryptKey()));
+				event.client().write(LoginMessage.HELLO_CONNECT(event.client().encryptKey()));
 				break;
 				
 			case DISCONNECTED:

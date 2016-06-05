@@ -111,16 +111,16 @@ public abstract class AbstractTcpServer<C extends AbstractTcpClient<C>, S extend
 				break;
 				
 			case DISCONNECTED: 
-				event.object().removeObserver(this);
-				this.clients.remove(event.object());
-				this.releaseClientIdentity(event.object().identity());
+				event.client().removeObserver(this);
+				this.clients.remove(event.client());
+				this.releaseClientIdentity(event.client().identity());
 				LOGGER.info("client disconnected");
 				break;
 				
 			default:
 				break;
 		}		
-		fireEvent(event.object(), event.type());
+		fireEvent(event.client(), event.type());
 	}
 		
 	protected void fireEvent(final C client, final TcpEventType type) {

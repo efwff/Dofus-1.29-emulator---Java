@@ -164,7 +164,7 @@ public final class LoginMessage {
 			@Override
 			protected String internalSerialize() {
 				return String.format(
-							"AYK%s:%d:%s",
+							"AYK%s:%d;%s",
 							ip,
 							port,
 							ticket

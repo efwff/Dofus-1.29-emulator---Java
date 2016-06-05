@@ -81,10 +81,10 @@ public abstract class AbstractDofusClient<T> extends AbstractTcpClient<T> {
 			this.processor.process((T)this, message);
 		} 
 		catch (final EmptyStateException e) {
-			LOGGER.info("empty state for client while trying to parse message : " + e.getMessage());
+			LOGGER.info("message received empty state : " + e.getMessage());
 		}
 		catch(final UnhandledMessageException e) {
-			LOGGER.info("unknow message received in wrong state : " + e.getMessage());
+			LOGGER.info("unhandled message : " + e.getMessage());
 		}
 		catch(final ExecutionException e) {		
 			e.printStackTrace();

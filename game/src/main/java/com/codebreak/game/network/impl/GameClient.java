@@ -5,11 +5,11 @@ import java.nio.channels.AsynchronousSocketChannel;
 import java.util.concurrent.AbstractExecutorService;
 
 import com.codebreak.common.network.AbstractDofusClient;
-import com.codebreak.common.persistence.impl.Database;
+import com.codebreak.game.network.handler.GameState;
 
 public final class GameClient extends AbstractDofusClient<GameClient> {
 	public GameClient(final int identity, final ByteBuffer buffer, final AsynchronousSocketChannel channel,
-			final Database database, final AbstractExecutorService service) {
-		super(identity, buffer, channel, service, null);
+			final AbstractExecutorService service, final GameState initialState) {
+		super(identity, buffer, channel, service, initialState);
 	}
 }

@@ -8,6 +8,7 @@ import java.util.NoSuchElementException;
 import com.codebreak.common.network.AbstractTcpServer;
 import com.codebreak.common.persistence.impl.Database;
 import com.codebreak.common.util.Configuration;
+import com.codebreak.login.network.handler.impl.ProtocolCheckingState;
 
 public final class LoginServer extends AbstractTcpServer<LoginClient, LoginService> {
 	
@@ -25,8 +26,11 @@ public final class LoginServer extends AbstractTcpServer<LoginClient, LoginServi
 					identity, 
 					buffer, 
 					channel, 
-					database,
-					service
+					service,
+					new ProtocolCheckingState(
+						database, 
+						service
+					)
 				);
 	}	
 }
