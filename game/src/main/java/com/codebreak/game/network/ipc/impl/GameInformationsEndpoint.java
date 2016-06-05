@@ -7,6 +7,8 @@ import com.codebreak.common.network.ipc.GameInformationsSource;
 import com.codebreak.common.network.ipc.impl.IPCServiceServer;
 import com.codebreak.common.network.ipc.message.impl.TransfertTicket;
 import com.codebreak.common.util.TypedObserver;
+import com.codebreak.game.logic.account.AccountEvent;
+import com.codebreak.game.logic.account.AccountSource;
 import com.codebreak.game.logic.authentication.TicketVerificationSource;
 import com.codebreak.game.logic.authentication.impl.TicketEvent;
 
@@ -15,17 +17,29 @@ public final class GameInformationsEndpoint
 	implements EventListener, TypedObserver<TicketEvent> {	
 	
 	private final GameInformationsSource stateSource;
-	private final TicketVerificationSource ticketSource;
+	private final TicketVerificationSource tickets;
 	
 	public GameInformationsEndpoint(final String host, 
 			final int port,
 			final GameInformationsSource stateSource,
-			final TicketVerificationSource ticketSource) {
+			final TicketVerificationSource tickets,
+			final AccountSource accounts) {
 		super(host, port);
 		this.stateSource = stateSource;
-		this.ticketSource = ticketSource;
-		this.ticketSource.addObserver(this);
+		this.tickets = tickets;
+		this.tickets.addObserver(this);
 		bind(this);
+		accounts.addObserver(new TypedObserver<AccountEvent>() {			
+			@SuppressWarnings("incomplete-switch")
+			@Override
+			public void onEvent(final AccountEvent event) {
+				switch(event.type()) {
+					case DISCONNECTED:
+						firePlayerDisconnection(event.accountId());
+						break;
+				}
+			}
+		});
 	}
 
 	@Override
@@ -67,6 +81,6 @@ public final class GameInformationsEndpoint
 	}
 	
 	private void registerTicket(final TransfertTicket ticket) {
-		this.ticketSource.register(ticket);
+		this.tickets.register(ticket);
 	}
 }

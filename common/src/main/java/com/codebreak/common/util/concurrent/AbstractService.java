@@ -3,7 +3,7 @@ package com.codebreak.common.util.concurrent;
 import java.util.List;
 import java.util.concurrent.AbstractExecutorService;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 
 import org.jooq.DSLContext;
@@ -67,7 +67,7 @@ public abstract class AbstractService<T>
 	public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
 		return this.executor.awaitTermination(timeout, unit);
 	}
-
+	
 	@Override
 	public void execute(Runnable command) {
 		this.executor.execute(command);

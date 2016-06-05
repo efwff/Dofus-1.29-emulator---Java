@@ -34,6 +34,6 @@ public final class ProtocolHandler extends AbstractLoginHandler {
 			client.write(LoginMessage.LOGIN_FAILURE_PROTOCOL);
 			return fail();
 		}
-		return next(new AuthenticationState(this.db(), gameServiceSource));
+		return next(new AuthenticationState(parent().context(), this.db(), gameServiceSource));
 	}
 }

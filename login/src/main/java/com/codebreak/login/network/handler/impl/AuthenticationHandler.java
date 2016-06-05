@@ -113,7 +113,7 @@ public final class AuthenticationHandler extends AbstractLoginHandler {
 				)
 			);			
 			
-			return next(new ServerSelectionState(db(), account, this.gameServiceSource, accountDisconnectTrigger));
+			return next(new ServerSelectionState(parent().context(), db(), account, this.gameServiceSource, accountDisconnectTrigger));
 		} 
 		catch (final NonExistantException | ExistantException | WrongPasswordException e) {
 			client.write(LoginMessage.LOGIN_FAILURE_CREDENTIALS);

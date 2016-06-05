@@ -1,9 +1,9 @@
 package com.codebreak.common.network.handler;
 
-import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
 
 import com.codebreak.common.persistence.impl.Database;
 
@@ -11,14 +11,20 @@ import gnu.trove.set.hash.THashSet;
 
 public abstract class AbstractNetworkState<C, T> implements NetworkState<C> {
 	
+	private final ExecutorService context;
 	private final T data;
 	private final Set<AbstractMessageHandler<C>> handlers;
 	private final BitSet bits;
 	
-	public AbstractNetworkState(final Database db, final T data) {
+	public AbstractNetworkState(final ExecutorService context, final Database db, final T data) {
 		this.handlers = new THashSet<AbstractMessageHandler<C>>();
 		this.bits = new BitSet();
 		this.data = data;
+		this.context = context;
+	}
+	
+	public ExecutorService context() {
+		return this.context;
 	}
 	
 	public T data() {

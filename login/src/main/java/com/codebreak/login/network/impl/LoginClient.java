@@ -13,8 +13,8 @@ public class LoginClient extends AbstractDofusClient<LoginClient> {
 	
 	private final String encryptKey;
 	
-	public LoginClient(final int identity, final ByteBuffer buffer, final AsynchronousSocketChannel channel, final LoginService service, final LoginState initialState) {
-		super(identity, buffer, channel, service, initialState);
+	public LoginClient(final int identity, final ByteBuffer buffer, final AsynchronousSocketChannel channel, final LoginState initialState) {
+		super(identity, buffer, channel, initialState);
 		this.encryptKey = new GeneratedString(KEY_LENGTH).value();
 	}	
 	

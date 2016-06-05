@@ -26,8 +26,8 @@ public final class LoginServer extends AbstractTcpServer<LoginClient, LoginServi
 					identity, 
 					buffer, 
 					channel, 
-					service,
 					new ProtocolCheckingState(
+						service,
 						database, 
 						service
 					)
