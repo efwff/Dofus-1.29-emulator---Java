@@ -5,10 +5,13 @@ package com.codebreak.game.persistence;
 
 
 import com.codebreak.game.persistence.tables.Account;
+import com.codebreak.game.persistence.tables.Player;
 import com.codebreak.game.persistence.tables.records.AccountRecord;
+import com.codebreak.game.persistence.tables.records.PlayerRecord;
 
 import javax.annotation.Generated;
 
+import org.jooq.ForeignKey;
 import org.jooq.UniqueKey;
 import org.jooq.impl.AbstractKeys;
 
@@ -38,11 +41,14 @@ public class Keys {
 
     public static final UniqueKey<AccountRecord> KEY_ACCOUNT_PRIMARY = UniqueKeys0.KEY_ACCOUNT_PRIMARY;
     public static final UniqueKey<AccountRecord> KEY_ACCOUNT_NICKNAME = UniqueKeys0.KEY_ACCOUNT_NICKNAME;
+    public static final UniqueKey<PlayerRecord> KEY_PLAYER_PRIMARY = UniqueKeys0.KEY_PLAYER_PRIMARY;
+    public static final UniqueKey<PlayerRecord> KEY_PLAYER_NAME = UniqueKeys0.KEY_PLAYER_NAME;
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final ForeignKey<PlayerRecord, AccountRecord> FK_PLAYER_TO_ACCOUNT = ForeignKeys0.FK_PLAYER_TO_ACCOUNT;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
@@ -51,5 +57,11 @@ public class Keys {
     private static class UniqueKeys0 extends AbstractKeys {
         public static final UniqueKey<AccountRecord> KEY_ACCOUNT_PRIMARY = createUniqueKey(Account.ACCOUNT, "KEY_account_PRIMARY", Account.ACCOUNT.ID);
         public static final UniqueKey<AccountRecord> KEY_ACCOUNT_NICKNAME = createUniqueKey(Account.ACCOUNT, "KEY_account_Nickname", Account.ACCOUNT.NICKNAME);
+        public static final UniqueKey<PlayerRecord> KEY_PLAYER_PRIMARY = createUniqueKey(Player.PLAYER, "KEY_player_PRIMARY", Player.PLAYER.ID);
+        public static final UniqueKey<PlayerRecord> KEY_PLAYER_NAME = createUniqueKey(Player.PLAYER, "KEY_player_Name", Player.PLAYER.NAME);
+    }
+
+    private static class ForeignKeys0 extends AbstractKeys {
+        public static final ForeignKey<PlayerRecord, AccountRecord> FK_PLAYER_TO_ACCOUNT = createForeignKey(com.codebreak.game.persistence.Keys.KEY_ACCOUNT_PRIMARY, Player.PLAYER, "FK_Player_To_Account", Player.PLAYER.ACCOUNTID);
     }
 }

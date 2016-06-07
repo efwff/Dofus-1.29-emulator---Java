@@ -5,6 +5,7 @@ package com.codebreak.game.persistence;
 
 
 import com.codebreak.game.persistence.tables.Account;
+import com.codebreak.game.persistence.tables.Player;
 
 import javax.annotation.Generated;
 
@@ -26,4 +27,9 @@ public class Tables {
      * The table <code>codebreak_game.account</code>.
      */
     public static final Account ACCOUNT = com.codebreak.game.persistence.tables.Account.ACCOUNT;
+
+    /**
+     * The table <code>codebreak_game.player</code>.
+     */
+    public static final Player PLAYER = com.codebreak.game.persistence.tables.Player.PLAYER;
 }

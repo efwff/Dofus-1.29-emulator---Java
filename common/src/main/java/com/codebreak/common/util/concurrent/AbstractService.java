@@ -64,7 +64,7 @@ public abstract class AbstractService<T>
 	}
 
 	@Override
-	public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
+	public boolean awaitTermination(final long timeout, final TimeUnit unit) throws InterruptedException {
 		return this.executor.awaitTermination(timeout, unit);
 	}
 	

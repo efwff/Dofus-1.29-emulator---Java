@@ -42,6 +42,7 @@ public final class Main {
 			}			
 		};
 		final Database db = new Database(config);
+		db.generate();
 		final GameServer server = new GameServer(db, config);
 		server.start();
 		while(true)

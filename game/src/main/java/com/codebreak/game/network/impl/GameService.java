@@ -16,6 +16,8 @@ import com.codebreak.game.logic.authentication.TicketVerificationSource;
 import com.codebreak.game.logic.authentication.impl.Tickets;
 import com.codebreak.game.logic.statistic.OnlinePlayersSource;
 import com.codebreak.game.logic.statistic.impl.OnlinePlayers;
+import com.codebreak.game.logic.world.MapSource;
+import com.codebreak.game.logic.world.impl.Maps;
 import com.codebreak.game.network.ipc.impl.GameInformationsEndpoint;
 import com.codebreak.game.network.message.GameMessage;
 
@@ -31,14 +33,15 @@ public final class GameService
 	private final TicketVerificationSource tickets;
 	private final AccountSource accounts;
 	private final OnlinePlayersSource onlinePlayers;
+	private final MapSource maps;
 	
 	public GameService(final ExecutorService executor, final Database database, final Configuration config) {
 		super(executor, database);
 		this.config = config;
+		this.maps = new Maps(database);
 		this.accounts = new Accounts(database);
+		this.onlinePlayers = new OnlinePlayers(this.accounts);
 		this.tickets = new Tickets(this.accounts);
-		this.onlinePlayers = new OnlinePlayers();
-		this.accounts.addObserver(this.onlinePlayers);
 		this.infosEndpoint = new GameInformationsEndpoint(
 			config.string(CONFIG_INFOS_ENDPOINT_IP), 
 			config.integer(CONFIG_INFOS_ENDPOINT_PORT), 
@@ -89,5 +92,10 @@ public final class GameService
 	@Override
 	public OnlinePlayersSource onlinePlayers() {
 		return this.onlinePlayers;
+	}
+
+	@Override
+	public MapSource maps() {
+		return this.maps;
 	}
 }
